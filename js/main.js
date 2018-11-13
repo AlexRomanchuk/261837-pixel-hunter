@@ -1,6 +1,6 @@
 'use strict';
 
-const Keycode = {
+const KeyCode = {
   LEFT: 37,
   RIGHT: 39
 };
@@ -17,7 +17,7 @@ const wrap = (it) => {
   return shadow.cloneNode(true);
 };
 
-const screens = Array.from(document.querySelectorAll(`template`)).map((item) => wrap(item));
+const screens = Array.from(document.querySelectorAll(`template`)).map(wrap);
 
 let currentScreen = 1;
 
@@ -32,10 +32,10 @@ const selectScreen = (index) => {
 
 document.addEventListener(`keydown`, (evt) => {
   switch (evt.keyCode) {
-    case Keycode.LEFT:
+    case KeyCode.LEFT:
       selectScreen(currentScreen - 1);
       break;
-    case Keycode.RIGHT:
+    case KeyCode.RIGHT:
       selectScreen(currentScreen + 1);
       break;
   }
