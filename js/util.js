@@ -12,7 +12,7 @@ export const Game = {
 };
 
 export const removeLives = (lives, answer) => {
-  let timeoutAnswer = (answer.time > Game.TIME) ? true : false;
+  const timeoutAnswer = (answer.time > Game.TIME) ? true : false;
   let gamerLives = lives;
   if (timeoutAnswer) {
     gamerLives -= 1;
@@ -72,7 +72,7 @@ export const countScore = (answers, lives) => {
 };
 
 export const changeLevels = (level, answers, callbackGame, callbackScore) => {
-  let curLevel = level;
+  const curLevel = level;
   const result = {
     lives: callbackGame(answers),
     level: curLevel + 1,
