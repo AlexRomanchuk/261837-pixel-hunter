@@ -12,7 +12,7 @@ export const Game = {
 };
 
 export const removeLives = (lives, answer) => {
-  const timeoutAnswer = (answer.time > Game.TIME) ? true : false;
+  const timeoutAnswer = answer.time > Game.TIME;
   let gamerLives = lives;
   if (timeoutAnswer) {
     gamerLives -= 1;

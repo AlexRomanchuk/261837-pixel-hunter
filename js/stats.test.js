@@ -1,4 +1,4 @@
-import {countScore} from '../js/util.js';
+import {countScore, gameTimer, changeLevels, removeLives} from './util';
 import {assert} from 'chai';
 
 // Эмуляция ответов
@@ -407,8 +407,6 @@ describe(`Function Count Score`, () => {
   });
 });
 
-import {removeLives} from '../js/util.js';
-
 // Эмуляция игры
 const testGame = (answers) => {
   let lives = 3;
@@ -436,8 +434,6 @@ describe(`Test Count Lives`, () => {
   });
 });
 
-import {changeLevels} from '../js/util.js';
-
 describe(`Test Change Levels`, () => {
   it(`Game 1 completed`, () => {
     assert.equal(JSON.stringify((changeLevels(1, answersNorm, testGame, countScore))), JSON.stringify({
@@ -454,8 +450,6 @@ describe(`Test Change Levels`, () => {
     }));
   });
 });
-
-import {gameTimer} from '../js/util.js';
 
 // Некоторый рабочий коллбэк
 const getAnswerTime = (time) => {
