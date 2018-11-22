@@ -113,4 +113,5 @@ const statsScreen = getElementFromTemplate(`<header class="header">
       </tr>
     </table>
   </section>`);
+
 export default statsScreen;
