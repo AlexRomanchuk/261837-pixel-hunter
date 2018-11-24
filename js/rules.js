@@ -1,8 +1,8 @@
 // правила
 
 import {getElementFromTemplate, showScreen} from '../js/util.js';
-
-import gameOneScreen from '../js/game-1.js';
+import {initialLevel} from '../js/data.js';
+import {openLevel} from '../js/game.js';
 
 const rulesScreen = getElementFromTemplate(`<header class="header">
     <button class="back">
@@ -37,7 +37,7 @@ const rulesField = rulesScreen.querySelector(`.rules__input`);
 const buttonContinue = rulesScreen.querySelector(`.rules__button`);
 
 rulesField.addEventListener(`input`, () => {
-  if (rulesField.value) {
+  if (rulesField.value.trim()) {
     buttonContinue.disabled = ``;
   } else {
     buttonContinue.disabled = `disabled`;
@@ -45,7 +45,7 @@ rulesField.addEventListener(`input`, () => {
 });
 
 rulesForm.addEventListener(`submit`, () => {
-  showScreen(gameOneScreen);
+  showScreen(openLevel(initialLevel));
 });
 
 export default rulesScreen;

@@ -20,6 +20,11 @@ export const removeLives = (lives, answer) => {
   return gamerLives;
 };
 
+export const addStats = (screen, DOM) => {
+  const section = screen.querySelector(`.game`);
+  section.appendChild(DOM);
+};
+
 export const gameTimer = (time, callback) => {
   try {
     let lastTime = time;
