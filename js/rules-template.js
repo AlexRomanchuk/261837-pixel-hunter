@@ -1,21 +1,10 @@
 // правила
-/*
+
 import {getElementFromTemplate, showScreen} from '../js/util.js';
 import {initialLevel} from '../js/data.js';
 import {openScreen} from '../js/game.js';
-
-const rulesScreen = getElementFromTemplate(`<header class="header">
-    <button class="back">
-      <span class="visually-hidden">Вернуться к началу</span>
-      <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-left"></use>
-      </svg>
-      <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="img/sprite.svg#logo-small"></use>
-      </svg>
-    </button>
-  </header>
-  <section class="rules">
+export default () => {
+  const rulesScreen = getElementFromTemplate(`<section class="rules">
     <h2 class="rules__title">Правила</h2>
     <ul class="rules__description">
       <li>Угадай 10 раз для каждого изображения фото
@@ -32,25 +21,21 @@ const rulesScreen = getElementFromTemplate(`<header class="header">
     </form>
   </section>`);
 
-const rulesForm = rulesScreen.querySelector(`.rules__form`);
-const rulesField = rulesScreen.querySelector(`.rules__input`);
-const buttonContinue = rulesScreen.querySelector(`.rules__button`);
+  const rulesForm = rulesScreen.querySelector(`.rules__form`);
+  const rulesField = rulesScreen.querySelector(`.rules__input`);
+  const buttonContinue = rulesScreen.querySelector(`.rules__button`);
 
-rulesField.addEventListener(`input`, () => {
-  if (rulesField.value.trim()) {
-    buttonContinue.disabled = ``;
-  } else {
-    buttonContinue.disabled = `disabled`;
-  }
-});
+  rulesField.addEventListener(`input`, () => {
+    if (rulesField.value.trim()) {
+      buttonContinue.disabled = ``;
+    } else {
+      buttonContinue.disabled = `disabled`;
+    }
+  });
 
-rulesForm.addEventListener(`submit`, () => {
-  try {
-  showScreen(openScreen(initialLevel));
-  } catch (err) {
-    alert(err);
-  }
-});
-
-export default rulesScreen;
- */
+  rulesForm.addEventListener(`submit`, () => {
+    initialLevel.itIsGame = true;
+    showScreen(openScreen(initialLevel));
+  });
+  return rulesScreen;
+};

@@ -86,10 +86,20 @@ export const changeLevels = (level, answers, callbackGame, callbackScore) => {
   return result;
 };
 
+export const exit = (callback, initialData, templater, tmplHeader, template) => {
+  initialData.lives = Game.LIVES;
+  initialData.results.push(initialData.answers);
+  initialData.answers = [];
+  initialData.itIsGame = false;
+  callback(templater(tmplHeader, template, initialData));
+};
+
 export const showScreen = (elem) => {
-  const mainElement = document.querySelector(`#main`);
-  mainElement.innerHTML = ``;
-  mainElement.appendChild(elem);
+  if (elem) {
+    const mainElement = document.querySelector(`#main`);
+    mainElement.innerHTML = ``;
+    mainElement.appendChild(elem);
+  }
 };
 
 export const getElementFromTemplate = (template) => {
@@ -98,10 +108,17 @@ export const getElementFromTemplate = (template) => {
   return wrapper;
 };
 
-export const backToStart = (screen, startScreen) => {
+export const backToStart = (screen, startScreen, initial) => {
   const buttonBack = screen.querySelector(`.back`);
   if (buttonBack) {
     buttonBack.addEventListener(`click`, () => {
+      if (initial) {
+        initial.level = 1;
+        initial.lives = Game.LIVES;
+        initial.answers = [];
+        initial.results = [];
+        initial.itIsGame = false;
+      }
       showScreen(startScreen);
     });
   }

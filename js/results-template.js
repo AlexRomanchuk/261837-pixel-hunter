@@ -1,19 +1,8 @@
-/* // результаты игр
+// результаты игр
+import stats from '../js/stats-template.js';
 
-import {getElementFromTemplate} from '../js/util.js';
-
-const statsScreen = getElementFromTemplate(`<header class="header">
-    <button class="back">
-      <span class="visually-hidden">Вернуться к началу</span>
-      <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-left"></use>
-      </svg>
-      <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="img/sprite.svg#logo-small"></use>
-      </svg>
-    </button>
-  </header>
-  <section class="result">
+export default (answers) => {
+  const tmpContent = `<section class="result">
     <h2 class="result__title">Победа!</h2>
     <table class="result__table">
       <tr>
@@ -112,6 +101,35 @@ const statsScreen = getElementFromTemplate(`<header class="header">
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
     </table>
-  </section>`);
+  </section>`;
+  const DOMResults = document.createElement(`section`);
+  DOMResults.classList.add(`result`);
+  const table = document.createElement(`table`);
+  table.classList.add(`result__table`);
+  const tr = document.createElement(`tr`);
+  const tdNumber = document.createElement(`td`);
+  tdNumber.classList.add(`result__number`);
+  const tdStats = document.createElement(`td`);
+  tdStats.colSpan = 2;
+  const tdPoints = document.createElement(`td`);
+  tdPoints.classList.add(`result__points`);
+  tdPoints.textContent = `× 100`;
+  const tdTotal = document.createElement(`td`);
+  tdTotal.classList.add(`result__total`);
+  tdTotal.textContent = `900`;
+  let i = 1;
+  console.log(answers);
+  for (let listAnswers of answers.results) {
+    tdNumber.textContent = i;
+    tdStats.appendChild(stats(listAnswers));
+    tr.appendChild(tdNumber);
+    tr.appendChild(tdStats);
+    tr.appendChild(tdPoints);
+    tr.appendChild(tdTotal);
+    table.appendChild(tr);
+    DOMResults.appendChild(table);
+    i++;
+  }
+  return DOMResults;
+};
 
-export default statsScreen; */

@@ -1,4 +1,5 @@
 // данные
+import {Game} from '../js/util.js';
 export const albumImages = {
   paintings: [
     `https://k42.kn3.net/CF42609C8.jpg`,
@@ -13,9 +14,11 @@ export const albumImages = {
 };
 
 export const initialLevel = {
+  itIsGame: false,
   level: 1,
-  lives: 3,
-  answers: []
+  lives: Game.LIVES,
+  answers: [],
+  results: []
 };
 
 export const levels = {

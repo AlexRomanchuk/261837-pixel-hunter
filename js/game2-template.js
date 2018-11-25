@@ -1,16 +1,12 @@
 // шаблон 2 уровня
-import {Game, getElementFromTemplate, addStats, showScreen} from '../js/util.js';
-import {initialLevel} from '../js/data.js';
-import {openLevel} from '../js/game.js';
+import {Game, getElementFromTemplate, addStats, showScreen, exit} from '../js/util.js';
 import header from '../js/game-header.js';
+import {openScreen} from '../js/game.js';
 import stats from '../js/stats-template.js';
-const level2Initial = Object.assign({}, initialLevel, {
-  'answers': [],
-  'lives': initialLevel.lives
-});
-let answers = 0;
+import renderResults from '../js/templater.js';
+import resultsTemplate from '../js/results-template.js';
 export default (initial, data, photos) => {
-  const content = `${header(level2Initial)}<section class="game">
+  const content = `<section class="game">
     <p class="game__task">${data.task}</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
@@ -27,7 +23,7 @@ export default (initial, data, photos) => {
     </form>
   </section>`;
   const gameTwoScreen = getElementFromTemplate(content);
-  addStats(gameTwoScreen, stats(level2Initial.answers));
+  addStats(gameTwoScreen, stats(initial.answers));
 
   const answersButtons = gameTwoScreen.querySelectorAll(`.visually-hidden[name="question1"]`);
 
@@ -37,20 +33,26 @@ export default (initial, data, photos) => {
       if (btn.checked) {
         result = btn.value === data.answer;
         if (!result) {
-          level2Initial.lives = level2Initial.lives - 1;
+          initial.lives = initial.lives - 1;
         }
-        level2Initial.answers.push({
+        initial.answers.push({
           right: result,
           time: 15
         });
-        answers++;
-        showScreen(openLevel(initial));
+        if (initial.lives < 0) {
+          exit(showScreen, initial, renderResults, header, resultsTemplate);
+        } else {
+          showScreen(openScreen(initial));
+        }
       }
-      if (answers === Game.COUNT_QUESTIONS) {
-        initial.level += 1;
+      if (initial.answers.length === Game.COUNT_QUESTIONS) {
         setTimeout(() => {
-          showScreen(openLevel(initial));
-        }, 1500);
+          initial.lives = Game.LIVES;
+          initial.level += 1;
+          initial.results.push(initial.answers);
+          initial.answers = [];
+          showScreen(openScreen(initial));
+        }, 500);
       }
     });
   };

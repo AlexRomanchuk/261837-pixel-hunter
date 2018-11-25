@@ -1,17 +1,13 @@
 // шаблон 3 уровня
-import {Game, getElementFromTemplate, addStats, showScreen} from '../js/util.js';
+import {Game, getElementFromTemplate, addStats, showScreen, exit} from '../js/util.js';
 import header from '../js/game-header.js';
-import {initialLevel} from '../js/data.js';
-import {openLevel} from '../js/game.js';
+import {openScreen} from '../js/game.js';
 import stats from '../js/stats-template.js';
-import statsScreen from '../js/stats.js';
-const level3Initial = Object.assign({}, initialLevel, {
-  'answers': [],
-  'lives': initialLevel.lives
-});
-let answers = 0;
+import renderResults from '../js/templater.js';
+import resultsTemplate from '../js/results-template.js';
 export default (initial, data, photos) => {
-  const content = `${header(level3Initial)}<section class="game">
+  const content = `<section class="game">
+    <p class="game__task">${data.task}</p>
     <form class="game__content  game__content--triple">
       <div class="game__option">
         <img src="${photos.paintings[1]}" alt="Option 1" width="304" height="455">
@@ -24,26 +20,30 @@ export default (initial, data, photos) => {
       </div>
     </form>
     </section>`;
+
   const gameThreeScreen = getElementFromTemplate(content);
-  addStats(gameThreeScreen, stats(level3Initial.answers));
+  addStats(gameThreeScreen, stats(initial.answers));
   const imagesAnswers = gameThreeScreen.querySelectorAll(`.game__option img`);
 
   const checkImage = (answer) => {
     const result = answer === data.answer;
     if (!result) {
-      level3Initial.lives = level3Initial.lives - 1;
+      initial.lives = initial.lives - 1;
     }
-    level3Initial.answers.push({
+    initial.answers.push({
       right: result,
       time: 15
     });
-    answers++;
-    showScreen(openLevel(initial));
+    if (initial.lives < 0) {
+      exit(showScreen, initial, renderResults, header, resultsTemplate);
+    } else {
+      showScreen(openScreen(initial));
+    }
   };
-  if (answers === Game.COUNT_QUESTIONS) {
+  if (initial.answers.length === Game.COUNT_QUESTIONS) {
     setTimeout(() => {
-      showScreen(statsScreen);
-    }, 1500);
+      exit(showScreen, initial, renderResults, header, resultsTemplate);
+    }, 500);
   }
   imagesAnswers.forEach((img) => {
     img.addEventListener(`click`, () => {

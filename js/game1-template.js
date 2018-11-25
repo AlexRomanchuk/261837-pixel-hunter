@@ -1,16 +1,12 @@
 // шаблон 1 уровня
-import {Game, getElementFromTemplate, addStats, showScreen} from '../js/util.js';
-import {openLevel} from '../js/game.js';
-import {initialLevel} from '../js/data.js';
+import {Game, getElementFromTemplate, addStats, showScreen, exit} from '../js/util.js';
+import {openScreen} from '../js/game.js';
 import header from '../js/game-header.js';
 import stats from '../js/stats-template.js';
-const level1Initial = Object.assign({}, initialLevel, {
-  'answers': [],
-  'lives': initialLevel.lives
-});
-let answers = 0;
+import renderResults from '../js/templater.js';
+import resultsTemplate from '../js/results-template.js';
 export default (initial, data, photos) => {
-  const content = `${header(level1Initial)}<section class="game">
+  const content = `<section class="game">
     <p class="game__task">${data.task}</p>
     <form class="game__content">
       <div class="game__option">
@@ -40,7 +36,7 @@ export default (initial, data, photos) => {
   const gameOneScreen = getElementFromTemplate(content);
   const radioButtonsOne = gameOneScreen.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = gameOneScreen.querySelectorAll(`.visually-hidden[name="question2"]`);
-  addStats(gameOneScreen, stats(level1Initial.answers));
+  addStats(gameOneScreen, stats(initial.answers));
 
   const checkAnswers = (buttons1, buttons2) => {
     let result1 = false;
@@ -61,20 +57,27 @@ export default (initial, data, photos) => {
       const answer = `${result1},${result2}`;
       const result = answer === data.answer;
       if (!result) {
-        level1Initial.lives = level1Initial.lives - 1;
+        initial.lives = initial.lives - 1;
       }
-      level1Initial.answers.push({
+      initial.answers.push({
         right: result,
         time: 15
       });
-      answers++;
-      showScreen(openLevel(level1Initial));
+      if (initial.lives < 0) {
+        initial.lives = 0;
+        exit(showScreen, initial, renderResults, header, resultsTemplate);
+      } else {
+        showScreen(openScreen(initial));
+      }
     }
-    if (answers === Game.COUNT_QUESTIONS) {
-      initial.level += 1;
+    if (initial.answers.length === Game.COUNT_QUESTIONS) {
       setTimeout(() => {
-        showScreen(openLevel(initial));
-      }, 1500);
+        initial.lives = Game.LIVES;
+        initial.level += 1;
+        initial.results.push(initial.answers);
+        initial.answers = [];
+        showScreen(openScreen(initial));
+      }, 500);
     }
   };
   radioButtonsOne.forEach((btn) => {
