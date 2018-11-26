@@ -9,8 +9,8 @@ export default (answers) => {
     return tr;
   };
 
-  const DOMResults = document.createElement(`section`);
-  DOMResults.classList.add(`result`);
+  const domResults = document.createElement(`section`);
+  domResults.classList.add(`result`);
   let i = 1;
   for (let listAnswers of answers.results) {
     const table = document.createElement(`table`);
@@ -59,8 +59,8 @@ export default (answers) => {
       </td>`);
       table.appendChild(rowTotal);
     }
-    DOMResults.appendChild(table);
+    domResults.appendChild(table);
     i++;
   }
-  return DOMResults;
+  return domResults;
 };
