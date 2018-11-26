@@ -1,5 +1,5 @@
 // шаблон 1 уровня
-import {Game, getElementFromTemplate, addStats, showScreen, exit} from '../js/util.js';
+import {Game, getElementFromTemplate, addStats, showScreen, exit, showNextLevel} from '../js/util.js';
 import {openScreen} from '../js/game.js';
 import header from '../js/game-header.js';
 import stats from '../js/stats-template.js';
@@ -61,23 +61,18 @@ export default (initial, data, photos) => {
       }
       initial.answers.push({
         right: result,
-        time: 15
+        time: initial.time
       });
       if (initial.lives < 0) {
-        initial.lives = 0;
-        exit(showScreen, initial, renderResults, header, resultsTemplate);
+        exit(initial, renderResults, header, resultsTemplate);
       } else {
         showScreen(openScreen(initial));
       }
     }
     if (initial.answers.length === Game.COUNT_QUESTIONS) {
       setTimeout(() => {
-        initial.lives = Game.LIVES;
-        initial.level += 1;
-        initial.results.push(initial.answers);
-        initial.answers = [];
-        showScreen(openScreen(initial));
-      }, 500);
+        showNextLevel(initial, openScreen);
+      }, 200);
     }
   };
   radioButtonsOne.forEach((btn) => {

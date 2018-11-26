@@ -26,21 +26,16 @@ export const addStats = (screen, DOM) => {
 };
 
 export const gameTimer = (time, callback) => {
-  try {
-    let lastTime = time;
-    callback(lastTime);
-    gameTimer.timerInterval = setInterval(() => {
-      callback(lastTime - 1);
-      lastTime--;
-      if (lastTime === -1) {
-        gameTimer.pause();
-        callback(`Time Out!`);
-      }
-    }, 1000);
-    return true;
-  } catch (err) {
-    return false;
-  }
+  let lastTime = time;
+  gameTimer.timerInterval = setInterval(() => {
+    callback(lastTime - 1);
+    lastTime--;
+    if (lastTime === 0) {
+      gameTimer.pause();
+      callback(`Time Out!`);
+    }
+  }, 1000);
+  return true;
 };
 
 gameTimer.pause = () => {
@@ -51,7 +46,7 @@ gameTimer.start = (time, callback) => {
   const result = gameTimer(time, callback);
   return result;
 };
-
+// функция пример для тестирования
 export const countScore = (answers, lives) => {
   let score = 0;
   let gameLives = lives;
@@ -75,6 +70,39 @@ export const countScore = (answers, lives) => {
   }
   return score;
 };
+// Функция подсчета очков по ответам
+export const countTotal = (answers) => {
+  let score = 0;
+  let countBonuses = 0;
+  let countFines = 0;
+  let gameLives = Game.LIVES;
+  answers.forEach((answer) => {
+    if (answer.right) {
+      score += Game.IDEAL_STEP;
+      if (answer.time < Game.FAST_ANSWER_TIME) {
+        countBonuses += 1;
+      }
+      if (answer.time > Game.SLOW_ANSWER_TIME) {
+        countFines += 1;
+      }
+    } else if (!answer.right || !answer) {
+      gameLives -= 1;
+    }
+  });
+  if (gameLives < 0) {
+    score = `fail`;
+    countBonuses = 0;
+    countFines = 0;
+  }
+  return {
+    'bonus': Game.BONUS_STEP,
+    'step': Game.IDEAL_STEP,
+    'countFines': countFines,
+    'countBonuses': countBonuses,
+    'score': score,
+    'lives': gameLives < 0 ? 0 : gameLives
+  };
+};
 
 export const changeLevels = (level, answers, callbackGame, callbackScore) => {
   const curLevel = level;
@@ -86,20 +114,29 @@ export const changeLevels = (level, answers, callbackGame, callbackScore) => {
   return result;
 };
 
-export const exit = (callback, initialData, templater, tmplHeader, template) => {
-  initialData.lives = Game.LIVES;
-  initialData.results.push(initialData.answers);
-  initialData.answers = [];
-  initialData.itIsGame = false;
-  callback(templater(tmplHeader, template, initialData));
-};
-
 export const showScreen = (elem) => {
   if (elem) {
     const mainElement = document.querySelector(`#main`);
     mainElement.innerHTML = ``;
     mainElement.appendChild(elem);
   }
+};
+
+export const showNextLevel = (initialData, templater) => {
+  initialData.lives = Game.LIVES;
+  initialData.level += 1;
+  initialData.results.push(initialData.answers);
+  initialData.answers = [];
+  showScreen(templater(initialData));
+};
+
+export const exit = (initialData, templater, tmplHeader, template) => {
+  gameTimer.pause();
+  initialData.lives = Game.LIVES;
+  initialData.results.push(initialData.answers);
+  initialData.answers = [];
+  initialData.itIsGame = false;
+  showScreen(templater(tmplHeader, template, initialData));
 };
 
 export const getElementFromTemplate = (template) => {
@@ -112,6 +149,7 @@ export const backToStart = (screen, startScreen, initial) => {
   const buttonBack = screen.querySelector(`.back`);
   if (buttonBack) {
     buttonBack.addEventListener(`click`, () => {
+      gameTimer.pause();
       if (initial) {
         initial.level = 1;
         initial.lives = Game.LIVES;

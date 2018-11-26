@@ -1,5 +1,4 @@
 // приветствие
-
 import {getElementFromTemplate, showScreen} from '../js/util.js';
 import {initialLevel, levels} from '../js/data.js';
 import openRules from '../js/templater.js';

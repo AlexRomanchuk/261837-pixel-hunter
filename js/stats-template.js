@@ -1,4 +1,11 @@
 // статистика
+/**
+ * Шаблонизатор статистики
+ * Возвращает DOM статистики в виде значков
+ *
+ * @param {array} answers Массив ответов.
+ * @return {DOM} Список UL значков.
+ */
 import {Game} from '../js/util.js';
 export default (answers) => {
   const statsList = document.createElement(`ul`);

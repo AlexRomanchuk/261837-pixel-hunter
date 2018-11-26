@@ -32,18 +32,18 @@ export default (initial, data, photos) => {
     }
     initial.answers.push({
       right: result,
-      time: 15
+      time: initial.time
     });
     if (initial.lives < 0) {
-      exit(showScreen, initial, renderResults, header, resultsTemplate);
+      exit(initial, renderResults, header, resultsTemplate);
     } else {
       showScreen(openScreen(initial));
     }
   };
   if (initial.answers.length === Game.COUNT_QUESTIONS) {
     setTimeout(() => {
-      exit(showScreen, initial, renderResults, header, resultsTemplate);
-    }, 500);
+      exit(initial, renderResults, header, resultsTemplate);
+    }, 200);
   }
   imagesAnswers.forEach((img) => {
     img.addEventListener(`click`, () => {

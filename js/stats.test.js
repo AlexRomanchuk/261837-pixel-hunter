@@ -456,14 +456,8 @@ const getAnswerTime = (time) => {
   return time;
 };
 
-// Ошибочный коллбэк
-const NotAFunction = 0;
-
 describe(`Timer`, () => {
   it(`Timer: 30sec`, () => {
     assert.equal(gameTimer.start(30, getAnswerTime), true);
-  });
-  it(`Timer: Error Accoured`, () => {
-    assert.equal(gameTimer.start(30, NotAFunction), false);
   });
 });

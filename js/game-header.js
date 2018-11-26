@@ -1,5 +1,5 @@
 // шаблон хедера
-import {Game, getElementFromTemplate, backToStart} from '../js/util.js';
+import {Game, getElementFromTemplate, backToStart, gameTimer} from '../js/util.js';
 import greetingScreen from '../js/greeting.js';
 export default (initial = null) => {
   const content = `<header class="header">
@@ -17,7 +17,8 @@ export default (initial = null) => {
   const DOMContent = getElementFromTemplate(content);
   if (initial && initial.itIsGame) {
     const header = DOMContent.querySelector(`.header`);
-    const DOMTimer = getElementFromTemplate(`<div class="game__timer">30</div>`);
+    const DOMTimer = getElementFromTemplate(`<div class="game__timer">${Game.TIME}</div>`);
+    const timer = DOMTimer.querySelector(`.game__timer`);
     const DOMLives = getElementFromTemplate(`<div class="game__lives">
       ${new Array(Game.LIVES - initial.lives)
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
@@ -28,6 +29,16 @@ export default (initial = null) => {
     </div>`);
     header.appendChild(DOMTimer);
     header.appendChild(DOMLives);
+    gameTimer.start(Game.TIME, (time) => {
+      timer.textContent = time;
+      initial.time += 1;
+      if (time <= 10) {
+        timer.style = `color: #dba400;`;
+      }
+      if (time <= 5) {
+        timer.style = `color: red;`;
+      }
+    });
     backToStart(DOMContent, greetingScreen, initial);
   } else if (initial) {
     backToStart(DOMContent, greetingScreen, initial);
