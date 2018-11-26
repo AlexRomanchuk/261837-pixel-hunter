@@ -14,21 +14,21 @@ export default (initial = null) => {
   </button>
   </header>`;
 
-  const DOMContent = getElementFromTemplate(content);
+  const domContent = getElementFromTemplate(content);
   if (initial && initial.itIsGame) {
-    const header = DOMContent.querySelector(`.header`);
-    const DOMTimer = getElementFromTemplate(`<div class="game__timer">${Game.TIME}</div>`);
-    const timer = DOMTimer.querySelector(`.game__timer`);
-    const DOMLives = getElementFromTemplate(`<div class="game__lives">
-      ${new Array(Game.LIVES - initial.lives)
+    const header = domContent.querySelector(`.header`);
+    const domTimer = getElementFromTemplate(`<div class="game__timer">${Game.TIME}</div>`);
+    const timer = domTimer.querySelector(`.game__timer`);
+    const domLives = getElementFromTemplate(`<div class="game__lives">
+      ${Array.from({length: Game.LIVES - initial.lives})
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
       .join(``)}
-      ${new Array(initial.lives)
+      ${Array.from({length: initial.lives})
       .fill(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">`)
       .join(``)}
     </div>`);
-    header.appendChild(DOMTimer);
-    header.appendChild(DOMLives);
+    header.appendChild(domTimer);
+    header.appendChild(domLives);
     gameTimer.start(Game.TIME, (time) => {
       timer.textContent = time;
       initial.time += 1;
@@ -39,10 +39,10 @@ export default (initial = null) => {
         timer.style = `color: red;`;
       }
     });
-    backToStart(DOMContent, greetingScreen, initial);
+    backToStart(domContent, greetingScreen, initial);
   } else if (initial) {
-    backToStart(DOMContent, greetingScreen, initial);
+    backToStart(domContent, greetingScreen, initial);
   }
-  backToStart(DOMContent, greetingScreen);
-  return DOMContent;
+  backToStart(domContent, greetingScreen);
+  return domContent;
 };

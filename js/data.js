@@ -1,5 +1,5 @@
 // данные
-import {Game} from '../js/util.js';
+import {Game} from './util';
 export const albumImages = {
   paintings: [
     `https://k42.kn3.net/CF42609C8.jpg`,
