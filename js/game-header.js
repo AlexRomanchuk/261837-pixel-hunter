@@ -1,6 +1,6 @@
 // шаблон хедера
-import {Game, getElementFromTemplate, backToStart, gameTimer} from '../js/util.js';
-import greetingScreen from '../js/greeting.js';
+import {Game, getElementFromTemplate, backToStart, gameTimer} from './util';
+import greetingScreen from './greeting';
 export default (initial = null) => {
   const content = `<header class="header">
   <button class="back">

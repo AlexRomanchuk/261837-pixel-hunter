@@ -1,6 +1,6 @@
 // результаты игр
-import stats from '../js/stats-template.js';
-import {countTotal} from '../js/util.js';
+import stats from './stats-template';
+import {countTotal} from './util';
 
 export default (answers) => {
   const createRow = (template) => {

@@ -1,9 +1,9 @@
 // приветствие
-import {getElementFromTemplate, showScreen} from '../js/util.js';
-import {initialLevel, levels} from '../js/data.js';
-import openRules from '../js/templater.js';
-import rulesScreen from '../js/rules-template.js';
-import header from '../js/game-header.js';
+import {getElementFromTemplate, showScreen} from './util';
+import {initialLevel, levels} from './data';
+import openRules from './templater';
+import rulesScreen from './rules-template';
+import header from './game-header';
 
 const greetingScreen = getElementFromTemplate(`<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">

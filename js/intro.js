@@ -1,7 +1,7 @@
 // стартовая страница
 
-import {getElementFromTemplate, showScreen} from '../js/util.js';
-import greetingScreen from '../js/greeting.js';
+import {getElementFromTemplate, showScreen} from './util';
+import greetingScreen from './greeting';
 
 const introScreen = getElementFromTemplate(`<section class="intro">
     <button class="intro__asterisk asterisk" type="button"><span class="visually-hidden">Продолжить</span>*</button>

@@ -1,10 +1,10 @@
 // шаблон 2 уровня
-import {Game, getElementFromTemplate, addStats, showScreen, exit, showNextLevel} from '../js/util.js';
-import header from '../js/game-header.js';
-import {openScreen} from '../js/game.js';
-import stats from '../js/stats-template.js';
-import renderResults from '../js/templater.js';
-import resultsTemplate from '../js/results-template.js';
+import {Game, getElementFromTemplate, addStats, showScreen, exit, showNextLevel} from './util';
+import header from './game-header';
+import {openScreen} from './game';
+import stats from './stats-template';
+import renderResults from './templater';
+import resultsTemplate from './results-template';
 export default (initial, data, photos) => {
   const content = `<section class="game">
     <p class="game__task">${data.task}</p>

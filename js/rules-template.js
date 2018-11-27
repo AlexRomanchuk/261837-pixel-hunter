@@ -1,6 +1,6 @@
 // правила
-import {getElementFromTemplate, showScreen} from '../js/util.js';
-import {openScreen} from '../js/game.js';
+import {getElementFromTemplate, showScreen} from './util';
+import {openScreen} from './game';
 export default (initial, game) => {
   const rulesScreen = getElementFromTemplate(`<section class="rules">
     <h2 class="rules__title">Правила</h2>
