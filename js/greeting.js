@@ -1,8 +1,9 @@
 // приветствие
-
-import {getElementFromTemplate, showScreen} from '../js/util.js';
-
-import rulesScreen from '../js/rules.js';
+import {getElementFromTemplate, showScreen} from './util';
+import {initialLevel, levels} from './data';
+import openRules from './templater';
+import rulesScreen from './rules-template';
+import header from './game-header';
 
 const greetingScreen = getElementFromTemplate(`<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
@@ -28,7 +29,7 @@ const greetingScreen = getElementFromTemplate(`<section class="greeting central-
 const buttonContinue = greetingScreen.querySelector(`.greeting__continue`);
 
 buttonContinue.addEventListener(`click`, () => {
-  showScreen(rulesScreen);
+  showScreen(openRules(header, rulesScreen, initialLevel, levels));
 });
 
 export default greetingScreen;
