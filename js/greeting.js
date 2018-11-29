@@ -1,7 +1,5 @@
 // приветствие
 import AbstractScreen from './abstract-screen';
-import {getElementFromTemplate, showScreen} from './util';
-import {initialLevel, levels} from './data';
 
 export default class Greeting extends AbstractScreen {
   constructor() {

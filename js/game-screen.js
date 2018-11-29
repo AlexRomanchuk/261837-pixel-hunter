@@ -1,8 +1,6 @@
 // игра
 import AbstractScreen from './abstract-screen';
-import {Game, gameTimer} from './util';
-import {levels, initialLevel, albumImages} from './data';
-import stats from './stats-template';
+import {Game} from './util';
 
 export default class GameScreen extends AbstractScreen {
   constructor(level, initial, callback, binding) {

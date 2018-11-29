@@ -13,7 +13,7 @@ const rules = new Rules(levels, initialLevel);
 const exit = () => {
   initialLevel.results.push(initialLevel.answers);
   showScreen(new Results(initialLevel.results).domElement);
-}
+};
 const bindGameOne = (context) => {
   const radioButtonsOne = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = context.domElement.querySelectorAll(`.visually-hidden[name="question2"]`);
@@ -62,7 +62,7 @@ const onAnswerOne = (buttons1, buttons2) => {
     setTimeout(() => {
       initialLevel.results.push(initialLevel.answers);
       initialLevel.answers = [];
-      showScreen(new GameScreen(levels.game2, initialLevel, onAnswerTwo, bindGameTwo).domElement)
+      showScreen(new GameScreen(levels.game2, initialLevel, onAnswerTwo, bindGameTwo).domElement);
     }, 200);
   }
 };
