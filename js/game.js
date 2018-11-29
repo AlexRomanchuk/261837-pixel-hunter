@@ -1,5 +1,5 @@
 // игра
-import {gameTimer} from './util';
+/* import {gameTimer} from './util';
 import {levels, albumImages} from './data';
 import game1Template from './game1-template';
 import game2Template from './game2-template';
@@ -20,3 +20,4 @@ export const openScreen = (initial) => {
   }
   return false;
 };
+ */

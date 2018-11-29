@@ -1,5 +1,5 @@
 // шаблонизатор уровней и экранов
-export default (header, template, initial, data, photos = null) => {
+/* export default (header, template, initial, data, photos = null) => {
   const screen = document.createElement(`div`);
   screen.classList.add(`screen`);
   if (initial) {
@@ -13,4 +13,4 @@ export default (header, template, initial, data, photos = null) => {
     screen.appendChild(template(initial, data, photos));
   }
   return screen;
-};
+}; */

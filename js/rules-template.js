@@ -1,5 +1,5 @@
 // правила
-import {getElementFromTemplate, showScreen} from './util';
+/* import {getElementFromTemplate, showScreen} from './util';
 import {openScreen} from './game';
 export default (initial, game) => {
   const rulesScreen = getElementFromTemplate(`<section class="rules">
@@ -33,4 +33,4 @@ export default (initial, game) => {
     showScreen(openScreen(initial));
   });
   return rulesScreen;
-};
+}; */

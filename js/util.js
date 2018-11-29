@@ -1,6 +1,6 @@
 // утилиты
 export const Game = {
-  LEVEL: 0,
+  LEVEL: 1,
   LIVES: 3,
   TIME: 30,
   COUNT_QUESTIONS: 10,

@@ -1,5 +1,5 @@
 // шаблон 3 уровня
-import {Game, getElementFromTemplate, addStats, showScreen, exit} from './util';
+/* import {Game, getElementFromTemplate, addStats, showScreen, exit} from './util';
 import header from './game-header';
 import {openScreen} from './game';
 import stats from './stats-template';
@@ -51,4 +51,4 @@ export default (initial, data, photos) => {
     });
   });
   return gameThreeScreen;
-};
+}; */

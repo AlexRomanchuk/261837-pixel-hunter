@@ -1,5 +1,5 @@
 // шаблон 1 уровня
-import {Game, getElementFromTemplate, addStats, showScreen, exit, showNextLevel} from './util';
+/* import {Game, getElementFromTemplate, addStats, showScreen, exit, showNextLevel} from './util';
 import {openScreen} from './game';
 import header from './game-header';
 import stats from './stats-template';
@@ -87,3 +87,4 @@ export default (initial, data, photos) => {
   });
   return gameOneScreen;
 };
+ */
