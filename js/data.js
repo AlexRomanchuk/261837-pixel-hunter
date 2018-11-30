@@ -14,8 +14,6 @@ export const albumImages = {
 };
 
 export const initialLevel = {
-  itIsGame: false,
-  level: 1,
   time: 0,
   lives: Game.LIVES,
   answers: [],

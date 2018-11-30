@@ -2,10 +2,9 @@
 import AbstractScreen from './abstract-screen';
 
 export default class Rules extends AbstractScreen {
-  constructor(data, initial) {
+  constructor(data) {
     super();
     this.data = data;
-    this.initial = initial;
   }
   get header() {
     return `<header class="header">
@@ -39,7 +38,6 @@ export default class Rules extends AbstractScreen {
     const rulesForm = this.domElement.querySelector(`.rules__form`);
     const rulesField = this.domElement.querySelector(`.rules__input`);
     const buttonContinue = this.domElement.querySelector(`.rules__button`);
-    const buttonExit = this.domElement.querySelector(`.back`);
 
     rulesField.addEventListener(`input`, () => {
       if (rulesField.value.trim()) {
@@ -50,11 +48,8 @@ export default class Rules extends AbstractScreen {
     });
 
     rulesForm.addEventListener(`submit`, () => {
-      this.initial.itIsGame = true;
       this.onAnswer();
     });
-    buttonExit.addEventListener(`click`, () => {
-      this.onExit();
-    });
+    this.onExit();
   }
 }

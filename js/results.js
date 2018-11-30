@@ -90,5 +90,6 @@ export default class Results extends AbstractScreen {
   bind() {
     const section = this.domElement.querySelector(`.table`);
     section.appendChild(createTableOfResults(this.answers));
+    this.onExit();
   }
 }

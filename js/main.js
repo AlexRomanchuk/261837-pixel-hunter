@@ -7,13 +7,32 @@ import Greeting from './greeting';
 import Rules from './rules';
 import GameScreen from './game-screen';
 import Results from './results';
-export const greeting = new Greeting();
+const greeting = new Greeting();
 const intro = new Intro();
-const rules = new Rules(levels, initialLevel);
+const rules = new Rules(levels);
+const backToStart = (dom) => {
+  const buttonExit = dom.querySelector(`.back`);
+  buttonExit.addEventListener(`click`, () => {
+    initialLevel.results = [];
+    initialLevel.answers = [];
+    initialLevel.lives = Game.LIVES;
+    initialLevel.time = 0;
+    showScreen(greeting.domElement);
+  });
+};
+const showNextLevel = (data, initial, callback, binding) => {
+  initial.results.push(initial.answers);
+  initial.answers = [];
+  initial.lives = Game.LIVES;
+  showScreen(new GameScreen(data, initial, callback, binding).domElement);
+};
 const exit = () => {
   initialLevel.results.push(initialLevel.answers);
-  showScreen(new Results(initialLevel.results).domElement);
+  const results = new Results(initialLevel.results);
+  results.onExit = backToStart(results.domElement);
+  showScreen(results.domElement);
 };
+rules.onExit = backToStart(rules.domElement);
 const bindGameOne = (context) => {
   const radioButtonsOne = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = context.domElement.querySelectorAll(`.visually-hidden[name="question2"]`);
@@ -28,6 +47,7 @@ const bindGameOne = (context) => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
     });
   });
+  backToStart(context.domElement);
 };
 const onAnswerOne = (buttons1, buttons2) => {
   let result1 = false;
@@ -60,13 +80,10 @@ const onAnswerOne = (buttons1, buttons2) => {
   }
   if (initialLevel.answers.length === Game.COUNT_QUESTIONS) {
     setTimeout(() => {
-      initialLevel.results.push(initialLevel.answers);
-      initialLevel.answers = [];
-      showScreen(new GameScreen(levels.game2, initialLevel, onAnswerTwo, bindGameTwo).domElement);
+      showNextLevel(levels.game2, initialLevel, onAnswerTwo, bindGameTwo);
     }, 200);
   }
 };
-const gameOne = new GameScreen(levels.game1, initialLevel, onAnswerOne, bindGameOne);
 const bindGameTwo = (context) => {
   const answersButtons = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   addStats(context.domElement, stats(initialLevel.answers));
@@ -75,6 +92,7 @@ const bindGameTwo = (context) => {
       context.onAnswer = context.callback(answersButtons);
     });
   });
+  backToStart(context.domElement);
 };
 const onAnswerTwo = (buttons) => {
   let result = false;
@@ -91,15 +109,13 @@ const onAnswerTwo = (buttons) => {
       if (initialLevel.lives < 0) {
         exit();
       } else {
-        initialLevel.results.push(initialLevel.answers);
-        initialLevel.answers = [];
         showScreen(new GameScreen(levels.game2, initialLevel, onAnswerTwo, bindGameTwo).domElement);
       }
     }
     if (initialLevel.answers.length === Game.COUNT_QUESTIONS) {
       setTimeout(() => {
-        showScreen(new GameScreen(levels.game3, initialLevel, onAnswerThree, bindGameThree).domElement);
-      }, 200);
+        showNextLevel(levels.game3, initialLevel, onAnswerThree, bindGameThree);
+      }, 150);
     }
   });
 };
@@ -111,6 +127,7 @@ const bindGameThree = (context) => {
       context.onAnswer = context.callback(img.src);
     });
   });
+  backToStart(context.domElement);
 };
 const onAnswerThree = (answer) => {
   const result = answer === levels.game3.answer;
@@ -119,7 +136,7 @@ const onAnswerThree = (answer) => {
   }
   initialLevel.answers.push({
     right: result,
-    time: initialLevel.time
+    time: 15
   });
   if (initialLevel.lives < 0) {
     exit();
@@ -129,7 +146,7 @@ const onAnswerThree = (answer) => {
   if (initialLevel.answers.length === Game.COUNT_QUESTIONS) {
     setTimeout(() => {
       exit();
-    }, 200);
+    }, 150);
   }
 };
 greeting.onClick = () => {
@@ -139,7 +156,6 @@ intro.onClick = () => {
   showScreen(greeting.domElement);
 };
 rules.onAnswer = () => {
-  showScreen(gameOne.domElement);
+  showScreen(new GameScreen(levels.game1, initialLevel, onAnswerOne, bindGameOne).domElement);
 };
 showScreen(intro.domElement);
-
