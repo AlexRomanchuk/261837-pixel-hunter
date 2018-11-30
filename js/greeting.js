@@ -1,11 +1,12 @@
 // приветствие
-import {getElementFromTemplate, showScreen} from './util';
-import {initialLevel, levels} from './data';
-import openRules from './templater';
-import rulesScreen from './rules-template';
-import header from './game-header';
+import AbstractScreen from './abstract-screen';
 
-const greetingScreen = getElementFromTemplate(`<section class="greeting central--blur">
+export default class Greeting extends AbstractScreen {
+  constructor() {
+    super();
+  }
+  get template() {
+    return `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -24,12 +25,12 @@ const greetingScreen = getElementFromTemplate(`<section class="greeting central-
         <use xlink:href="img/sprite.svg#arrow-right"></use>
       </svg>
     </button>
-  </section>`);
-
-const buttonContinue = greetingScreen.querySelector(`.greeting__continue`);
-
-buttonContinue.addEventListener(`click`, () => {
-  showScreen(openRules(header, rulesScreen, initialLevel, levels));
-});
-
-export default greetingScreen;
+    </section>`;
+  }
+  bind() {
+    const buttonContinue = this.domElement.querySelector(`.greeting__continue`);
+    buttonContinue.addEventListener(`click`, () => {
+      this.onClick();
+    });
+  }
+}

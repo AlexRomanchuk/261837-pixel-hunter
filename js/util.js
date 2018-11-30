@@ -1,6 +1,6 @@
 // утилиты
 export const Game = {
-  LEVEL: 0,
+  LEVEL: 1,
   LIVES: 3,
   TIME: 30,
   COUNT_QUESTIONS: 10,
@@ -10,7 +10,7 @@ export const Game = {
   SLOW_ANSWER_TIME: 20,
   MIN_ANSWERS: 7
 };
-
+// функция пример для тестирования
 export const removeLives = (lives, answer) => {
   const timeoutAnswer = answer.time > Game.TIME;
   let gamerLives = lives;
@@ -103,7 +103,7 @@ export const countTotal = (answers) => {
     'lives': gameLives < 0 ? 0 : gameLives
   };
 };
-
+// функция пример для тестирования
 export const changeLevels = (level, answers, callbackGame, callbackScore) => {
   const curLevel = level;
   const result = {
@@ -122,42 +122,8 @@ export const showScreen = (elem) => {
   }
 };
 
-export const showNextLevel = (initialData, templater) => {
-  initialData.lives = Game.LIVES;
-  initialData.level += 1;
-  initialData.results.push(initialData.answers);
-  initialData.answers = [];
-  showScreen(templater(initialData));
-};
-
-export const exit = (initialData, templater, tmplHeader, template) => {
-  gameTimer.pause();
-  initialData.lives = Game.LIVES;
-  initialData.results.push(initialData.answers);
-  initialData.answers = [];
-  initialData.itIsGame = false;
-  showScreen(templater(tmplHeader, template, initialData));
-};
-
 export const getElementFromTemplate = (template) => {
   const wrapper = document.createElement(`div`);
   wrapper.innerHTML = template.trim();
   return wrapper;
-};
-
-export const backToStart = (screen, startScreen, initial) => {
-  const buttonBack = screen.querySelector(`.back`);
-  if (buttonBack) {
-    buttonBack.addEventListener(`click`, () => {
-      gameTimer.pause();
-      if (initial) {
-        initial.level = 1;
-        initial.lives = Game.LIVES;
-        initial.answers = [];
-        initial.results = [];
-        initial.itIsGame = false;
-      }
-      showScreen(startScreen);
-    });
-  }
 };

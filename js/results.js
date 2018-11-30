@@ -1,8 +1,9 @@
 // результаты игр
+import AbstractScreen from './abstract-screen';
 import stats from './stats-template';
 import {countTotal} from './util';
 
-export default (answers) => {
+const createTableOfResults = (answers) => {
   const createRow = (template) => {
     const tr = document.createElement(`tr`);
     tr.innerHTML = template;
@@ -12,7 +13,7 @@ export default (answers) => {
   const domResults = document.createElement(`section`);
   domResults.classList.add(`result`);
   let i = 1;
-  for (let listAnswers of answers.results) {
+  for (let listAnswers of answers) {
     const table = document.createElement(`table`);
     table.classList.add(`result__table`);
     const rowStats = createRow(`<td class="result__number">${i}</td>
@@ -64,3 +65,31 @@ export default (answers) => {
   }
   return domResults;
 };
+
+export default class Results extends AbstractScreen {
+  constructor(answers) {
+    super();
+    this.answers = answers;
+  }
+  get header() {
+    return `<header class="header">
+      <button class="back">
+        <span class="visually-hidden">Вернуться к началу</span>
+        <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
+          <use xlink:href="img/sprite.svg#arrow-left"></use>
+        </svg>
+        <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
+          <use xlink:href="img/sprite.svg#logo-small"></use>
+        </svg>
+      </button>
+    </header>`;
+  }
+  get template() {
+    return `${this.header}<div class="table"></div>`;
+  }
+  bind() {
+    const section = this.domElement.querySelector(`.table`);
+    section.appendChild(createTableOfResults(this.answers));
+    this.onExit();
+  }
+}
