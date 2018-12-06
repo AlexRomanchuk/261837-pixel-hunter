@@ -32,4 +32,6 @@ export default class AbstractScreen {
   }
   onExit() {
   }
+  onTimeout() {
+  }
 }

@@ -12,14 +12,19 @@ export const albumImages = {
     `http://i.imgur.com/DKR1HtB.jpg`
   ]
 };
-
 export const initialLevel = {
-  time: 0,
-  lives: Game.LIVES,
-  answers: [],
-  results: []
+  level: 1,
+  time: Game.TIME,
+  lives: Game.LIVES
 };
-
+export const resultData = {
+  answers: [],
+  gameResults: []
+};
+export const gameTimers = {
+  answerTime: 0,
+  gameTime: Game.TIME
+};
 export const levels = {
   'game1': {
     selector: ``,

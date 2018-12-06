@@ -1,23 +1,15 @@
 // утилиты
 export const Game = {
   LEVEL: 1,
+  COUNT_LEVELS: 3,
   LIVES: 3,
-  TIME: 30,
+  TIME: 31,
   COUNT_QUESTIONS: 10,
   IDEAL_STEP: 100,
   BONUS_STEP: 50,
   FAST_ANSWER_TIME: 10,
   SLOW_ANSWER_TIME: 20,
   MIN_ANSWERS: 7
-};
-// функция пример для тестирования
-export const removeLives = (lives, answer) => {
-  const timeoutAnswer = answer.time > Game.TIME;
-  let gamerLives = lives;
-  if (timeoutAnswer) {
-    gamerLives -= 1;
-  }
-  return gamerLives;
 };
 
 export const addStats = (screen, DOM) => {
@@ -77,7 +69,7 @@ export const countTotal = (answers) => {
   let countFines = 0;
   let gameLives = Game.LIVES;
   answers.forEach((answer) => {
-    if (answer.right) {
+    if (answer && answer.right) {
       score += Game.IDEAL_STEP;
       if (answer.time < Game.FAST_ANSWER_TIME) {
         countBonuses += 1;
@@ -85,7 +77,7 @@ export const countTotal = (answers) => {
       if (answer.time > Game.SLOW_ANSWER_TIME) {
         countFines += 1;
       }
-    } else if (!answer.right || !answer) {
+    } else if (!answer || !answer.right) {
       gameLives -= 1;
     }
   });

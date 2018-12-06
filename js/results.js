@@ -2,6 +2,7 @@
 import AbstractScreen from './abstract-screen';
 import stats from './stats-template';
 import {countTotal} from './util';
+import Application from './application';
 
 const createTableOfResults = (answers) => {
   const createRow = (template) => {
@@ -90,6 +91,9 @@ export default class Results extends AbstractScreen {
   bind() {
     const section = this.domElement.querySelector(`.table`);
     section.appendChild(createTableOfResults(this.answers));
-    this.onExit();
+    const buttonExit = this.domElement.querySelector(`.back`);
+    buttonExit.addEventListener(`click`, () => {
+      Application.showGreeting();
+    });
   }
 }

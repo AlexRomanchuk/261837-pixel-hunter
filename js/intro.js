@@ -1,5 +1,6 @@
 // стартовая страница
 import AbstractScreen from './abstract-screen';
+import Application from './application';
 export default class Intro extends AbstractScreen {
   constructor() {
     super();
@@ -13,7 +14,7 @@ export default class Intro extends AbstractScreen {
   bind() {
     const asterisk = this.domElement.querySelector(`.intro__asterisk`);
     asterisk.addEventListener(`click`, () => {
-      this.onClick();
+      Application.showGreeting();
     });
   }
 }

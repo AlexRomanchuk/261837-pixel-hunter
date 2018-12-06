@@ -1,5 +1,6 @@
 // правила
 import AbstractScreen from './abstract-screen';
+import Application from './application';
 
 export default class Rules extends AbstractScreen {
   constructor(data) {
@@ -38,7 +39,7 @@ export default class Rules extends AbstractScreen {
     const rulesForm = this.domElement.querySelector(`.rules__form`);
     const rulesField = this.domElement.querySelector(`.rules__input`);
     const buttonContinue = this.domElement.querySelector(`.rules__button`);
-
+    const buttonExit = this.domElement.querySelector(`.back`);
     rulesField.addEventListener(`input`, () => {
       if (rulesField.value.trim()) {
         buttonContinue.disabled = ``;
@@ -46,10 +47,11 @@ export default class Rules extends AbstractScreen {
         buttonContinue.disabled = `disabled`;
       }
     });
-
     rulesForm.addEventListener(`submit`, () => {
-      this.onAnswer();
+      Application.showGame();
     });
-    this.onExit();
+    buttonExit.addEventListener(`click`, () => {
+      Application.showGreeting();
+    });
   }
 }
