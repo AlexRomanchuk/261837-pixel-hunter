@@ -1,6 +1,6 @@
 // приветствие
 import AbstractScreen from './abstract-screen';
-
+import Application from './application';
 export default class Greeting extends AbstractScreen {
   constructor() {
     super();
@@ -30,7 +30,7 @@ export default class Greeting extends AbstractScreen {
   bind() {
     const buttonContinue = this.domElement.querySelector(`.greeting__continue`);
     buttonContinue.addEventListener(`click`, () => {
-      this.onClick();
+      Application.showRules();
     });
   }
 }
