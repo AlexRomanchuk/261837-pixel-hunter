@@ -14,8 +14,8 @@ const clearTimeouts = (arrTimeouts) => {
     clearTimeout(timeout);
   }
 };
-const backToStart = (dom) => {
-  const buttonExit = dom.querySelector(`.back`);
+const backToStart = (domElement) => {
+  const buttonExit = domElement.querySelector(`.back`);
   buttonExit.addEventListener(`click`, () => {
     clearTimeouts(timeouts);
     Application.showGreeting();
@@ -87,21 +87,21 @@ export default class GameController {
   }
   start() {
     const level = this.model.getCurrentLevel();
-    const onAnswerOne = (buttons1, buttons2) => {
-      let result1 = false;
-      let result2 = false;
-      buttons1.forEach((btn) => {
+    const onAnswerOne = (buttonsImageLeft, buttonsImageRight) => {
+      let resultOne = false;
+      let resultTwo = false;
+      buttonsImageLeft.forEach((btn) => {
         if (btn.checked) {
-          result1 = btn.value;
+          resultOne = btn.value;
         }
       });
-      buttons2.forEach((btn) => {
+      buttonsImageRight.forEach((btn) => {
         if (btn.checked) {
-          result2 = btn.value;
+          resultTwo = btn.value;
         }
       });
-      if (result1 && result2) {
-        const answer = `${result1},${result2}`;
+      if (resultOne && resultTwo) {
+        const answer = `${resultOne},${resultTwo}`;
         const result = answer === level.answer;
         this.model.onAnswer(result);
         this._stopTimer();
