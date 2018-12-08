@@ -30,7 +30,7 @@ export default class Greeting extends AbstractScreen {
   bind() {
     const buttonContinue = this.domElement.querySelector(`.greeting__continue`);
     buttonContinue.addEventListener(`click`, () => {
-      Application.showRules();
+      Application.showRules(window.gameData);
     });
   }
 }

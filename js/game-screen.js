@@ -3,9 +3,11 @@ import AbstractScreen from './abstract-screen';
 import {Game} from './util';
 
 export default class GameScreen extends AbstractScreen {
-  constructor(level, initial, callback, binding) {
+  constructor(selector, template, data, initial, callback, binding) {
     super();
-    this.level = level;
+    this.gameTemplate = template;
+    this.riddle = data;
+    this.selector = selector;
     this.initial = initial;
     this.callback = callback;
     this.binding = binding;
@@ -34,9 +36,9 @@ export default class GameScreen extends AbstractScreen {
   }
   get template() {
     return `${this.header}<section class="game">
-    <p class="game__task">${this.level.task}</p>
-      <form class="game__content ${this.level.selector}">
-        ${this.level.template}
+    <p class="game__task">${this.riddle.question}</p>
+      <form class="game__content ${this.selector}">
+        ${this.gameTemplate}
       </form>
     </section>`;
   }

@@ -1,11 +1,10 @@
 // правила
 import AbstractScreen from './abstract-screen';
 import Application from './application';
-
+let i = 0;
 export default class Rules extends AbstractScreen {
-  constructor(data) {
+  constructor() {
     super();
-    this.data = data;
   }
   get header() {
     return `<header class="header">
@@ -24,8 +23,13 @@ export default class Rules extends AbstractScreen {
     return `${this.header}<section class="rules">
     <h2 class="rules__title">Правила</h2>
     <ul class="rules__description">
-      ${this.data.game1.rule}
-      <li>На каждую попытку отводится 30 секунд.</li>
+      <li>Три вида вопросов:</li>
+      <li>Найти рисунок или фото среди трех изображений</li>
+      <li>Определить, чем является изображение - фотографией или рисунком</li>
+      <li>Угадать, фото или рисунок, для двух изображений</li>
+      <li>Список вопросов:</li>
+      <li class="rule">На каждую попытку отводится 30 секунд.</li>
+      <li>За таймаут минус одна попытка.</li>
       <li>Ошибиться можно не более 3 раз.</li>
     </ul>
     <p class="rules__ready">Готовы?</p>
@@ -36,10 +40,18 @@ export default class Rules extends AbstractScreen {
     </section>`;
   }
   bind() {
+    const rule = this.domElement.querySelector(`.rule`);
     const rulesForm = this.domElement.querySelector(`.rules__form`);
+    const rulesList = this.domElement.querySelector(`.rules__description`);
     const rulesField = this.domElement.querySelector(`.rules__input`);
     const buttonContinue = this.domElement.querySelector(`.rules__button`);
     const buttonExit = this.domElement.querySelector(`.back`);
+    for (let riddle of window.gameData) {
+      i++;
+      const riddleTitle = document.createElement(`li`);
+      riddleTitle.textContent = `${i}: ${riddle.question}`;
+      rulesList.insertBefore(riddleTitle, rule);
+    }
     rulesField.addEventListener(`input`, () => {
       if (rulesField.value.trim()) {
         buttonContinue.disabled = ``;
@@ -48,10 +60,10 @@ export default class Rules extends AbstractScreen {
       }
     });
     rulesForm.addEventListener(`submit`, () => {
-      Application.showGame();
+      Application.showGame(window.gameData);
     });
     buttonExit.addEventListener(`click`, () => {
-      Application.showGreeting();
+      Application.showGreeting(window.gameData);
     });
   }
 }

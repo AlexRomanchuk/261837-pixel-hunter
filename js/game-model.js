@@ -1,8 +1,6 @@
-// общий класс экрана
-import {initialLevel, levels, resultData, gameTimers} from './data';
-import {Game} from './util';
+// модель приложения
+import {initialLevel, resultData, gameTimers} from './data';
 
-const getLevel = (state) => levels[`game${state.level}`];
 const tick = (timers) => {
   const clock = document.querySelector(`.game__timer`);
   timers.gameTime = timers.gameTime - 1;
@@ -19,7 +17,8 @@ const die = (initial) => {
   return initial;
 };
 export default class GameModel {
-  constructor() {
+  constructor(data) {
+    this.data = data;
     this.restart();
   }
   get getInitial() {
@@ -28,23 +27,11 @@ export default class GameModel {
   get getTimers() {
     return this.timers;
   }
-  getCurrentLevel() {
-    return getLevel(this.initial);
-  }
-  nextLevel() {
-    resultData.gameResults.push(resultData.answers);
-    resultData.answers = [];
-    this.initial.level += 1;
-  }
   tick() {
     return tick(this.timers);
   }
   die() {
     this.initial = die(this.initial);
-  }
-  reload() {
-    this.initial.lives = Game.LIVES;
-    this.timers = Object.assign({}, gameTimers);
   }
   restartTime() {
     this.timers = Object.assign({}, gameTimers);
@@ -69,8 +56,6 @@ export default class GameModel {
       right: result,
       time: this.timers.answerTime
     });
-  }
-  isEndOfGame() {
-    return this.initial.level > Game.COUNT_LEVELS;
+    this.initial.question++;
   }
 }
