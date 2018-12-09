@@ -26,12 +26,4 @@ export default class AbstractScreen {
   bind() {
     return false;
   }
-  onAnswer() {
-  }
-  onClick() {
-  }
-  onExit() {
-  }
-  onTimeout() {
-  }
 }

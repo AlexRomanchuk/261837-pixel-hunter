@@ -13,7 +13,7 @@ export const albumImages = {
   ]
 };
 export const initialLevel = {
-  level: 1,
+  question: Game.LEVEL,
   time: Game.TIME,
   lives: Game.LIVES
 };
@@ -26,7 +26,7 @@ export const gameTimers = {
   gameTime: Game.TIME
 };
 export const levels = {
-  'game1': {
+  'gameOne': {
     selector: ``,
     rule: `<li>Угадай 10 раз для каждого изображения фото
         <img class="rules__icon" src="img/icon-photo.png" width="32" height="31" alt="Фото"> или рисунок
@@ -57,7 +57,7 @@ export const levels = {
       </label>
     </div>`
   },
-  'game2': {
+  'gameTwo': {
     selector: `game__content--wide`,
     rule: `<li>Угадай 10 раз для одного изображения фото
         <img class="rules__icon" src="img/icon-photo.png" width="32" height="31" alt="Фото"> или рисунок
@@ -77,7 +77,7 @@ export const levels = {
       </label>
     </div>`
   },
-  'game3': {
+  'gameThree': {
     selector: `game__content--triple`,
     rule: `<li>Найди и выбери рисунок среди трех изображений (10 раз!).</li>
     <li>Среди изображений есть один рисунок</li>`,

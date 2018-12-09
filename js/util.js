@@ -1,7 +1,6 @@
 // утилиты
 export const Game = {
-  LEVEL: 1,
-  COUNT_LEVELS: 3,
+  LEVEL: 0,
   LIVES: 3,
   TIME: 31,
   COUNT_QUESTIONS: 10,
@@ -11,6 +10,8 @@ export const Game = {
   SLOW_ANSWER_TIME: 20,
   MIN_ANSWERS: 7
 };
+
+export const debug = true;
 
 export const addStats = (screen, DOM) => {
   const section = screen.querySelector(`.game`);
