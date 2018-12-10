@@ -4,7 +4,7 @@ import {showScreen, addStats, debug} from './util';
 import stats from './stats-template';
 import GameScreen from './game-screen';
 import Application from './application';
-import Results from './results';
+import StatsLoader from './stats-loader';
 const ONE_SECOND = 1000;
 const timeouts = [];
 const clearTimeouts = (arrTimeouts) => {
@@ -20,22 +20,25 @@ const backToStart = (domElement) => {
   });
 };
 const exit = () => {
-  resultData.gameResults.push(resultData.answers);
-  const pageResults = new Results(resultData.gameResults);
-  pageResults.onExit = backToStart(pageResults.domElement);
-  Application.showStats(resultData.gameResults);
+  StatsLoader.saveStats(resultData.answers)
+    .then(() => StatsLoader.loadStats())
+    .then((data) => {
+      data = Array.from(data);
+      Application.showStats(data);
+    })
+    .catch((err) => Application.showError(err.message));
 };
 const bindGameOne = (context) => {
   const radioButtonsOne = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = context.domElement.querySelectorAll(`.visually-hidden[name="question2"]`);
   addStats(context.domElement, stats(resultData.answers));
   radioButtonsOne.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
     });
   });
   radioButtonsTwo.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
     });
   });
@@ -45,7 +48,7 @@ const bindGameTwo = (context) => {
   const answersButtons = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   addStats(context.domElement, stats(resultData.answers));
   answersButtons.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(answersButtons);
     });
   });

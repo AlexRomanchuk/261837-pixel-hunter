@@ -2,6 +2,7 @@
 import AbstractScreen from './abstract-screen';
 import Application from './application';
 let i = 0;
+window.userName = ``;
 export default class Rules extends AbstractScreen {
   constructor() {
     super();
@@ -33,7 +34,7 @@ export default class Rules extends AbstractScreen {
       <li>Ошибиться можно не более 3 раз.</li>
     </ul>
     <p class="rules__ready">Готовы?</p>
-    <form class="rules__form">
+    <form class="rules__form" action="index.html">
       <input class="rules__input" type="text" placeholder="Ваше Имя" required>
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
@@ -41,7 +42,6 @@ export default class Rules extends AbstractScreen {
   }
   bind() {
     const rule = this.domElement.querySelector(`.rule`);
-    const rulesForm = this.domElement.querySelector(`.rules__form`);
     const rulesList = this.domElement.querySelector(`.rules__description`);
     const rulesField = this.domElement.querySelector(`.rules__input`);
     const buttonContinue = this.domElement.querySelector(`.rules__button`);
@@ -59,7 +59,9 @@ export default class Rules extends AbstractScreen {
         buttonContinue.disabled = `disabled`;
       }
     });
-    rulesForm.addEventListener(`submit`, () => {
+    buttonContinue.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      window.userName = rulesField.value.trim();
       Application.showGame(window.gameData);
     });
     buttonExit.addEventListener(`click`, () => {

@@ -12,52 +12,58 @@ const createTableOfResults = (answers) => {
   };
 
   const domResults = document.createElement(`section`);
+  const resultsHeader = document.createElement(`h2`);
   domResults.classList.add(`result`);
+  resultsHeader.classList.add(`result__title`);
+  resultsHeader.textContent = `Победа!`;
+  domResults.appendChild(resultsHeader);
   let i = 1;
   for (let listAnswers of answers) {
     const table = document.createElement(`table`);
     table.classList.add(`result__table`);
-    const rowStats = createRow(`<td class="result__number">${i}</td>
+    const rowStats = createRow(`<td class="result__number">${i}: <span class="username"></span></td>
         <td class="result__stats" colspan="2">
         </td>
-        <td class="result__points">× ${countTotal(listAnswers).step}</td>
-        <td class="result__total">${countTotal(listAnswers).score}</td>`);
+        <td class="result__points">× ${countTotal(listAnswers.results).step}</td>
+        <td class="result__total">${countTotal(listAnswers.results).score}</td>`);
     const tdStats = rowStats.querySelector(`.result__stats`);
-    tdStats.appendChild(stats(listAnswers));
+    const gamerCell = rowStats.querySelector(`.username`);
+    gamerCell.textContent = listAnswers.gamerName;
+    tdStats.appendChild(stats(listAnswers.results));
     table.appendChild(rowStats);
     let bonusFast = 0;
-    if (countTotal(listAnswers).countBonuses > 0) {
-      bonusFast = countTotal(listAnswers).countBonuses * countTotal(listAnswers).bonus;
+    if (countTotal(listAnswers.results).countBonuses > 0) {
+      bonusFast = countTotal(listAnswers.results).countBonuses * countTotal(listAnswers.results).bonus;
       const rowBonuses = createRow(`<td></td>
         <td class="result__extra">Бонус за скорость:</td>
-        <td class="result__extra">${countTotal(listAnswers).countBonuses} <span class="stats__result stats__result--fast"></span></td>
-        <td class="result__points">× ${countTotal(listAnswers).bonus}</td>
+        <td class="result__extra">${countTotal(listAnswers.results).countBonuses} <span class="stats__result stats__result--fast"></span></td>
+        <td class="result__points">× ${countTotal(listAnswers.results).bonus}</td>
         <td class="result__total">${bonusFast}</td>`);
       table.appendChild(rowBonuses);
     }
     let bonusLives = 0;
-    if (countTotal(listAnswers).lives > 0) {
-      bonusLives = countTotal(listAnswers).lives * countTotal(listAnswers).bonus;
+    if (countTotal(listAnswers.results).lives > 0) {
+      bonusLives = countTotal(listAnswers.results).lives * countTotal(listAnswers.results).bonus;
       const rowLives = createRow(`<td></td>
         <td class="result__extra">Бонус за жизни:</td>
-        <td class="result__extra">${countTotal(listAnswers).lives} <span class="stats__result stats__result--alive"></span></td>
-        <td class="result__points">× ${countTotal(listAnswers).bonus}</td>
+        <td class="result__extra">${countTotal(listAnswers.results).lives} <span class="stats__result stats__result--alive"></span></td>
+        <td class="result__points">× ${countTotal(listAnswers.results).bonus}</td>
         <td class="result__total">${bonusLives}</td>`);
       table.appendChild(rowLives);
     }
     let fineSlow = 0;
-    if (countTotal(listAnswers).countFines > 0) {
-      fineSlow = countTotal(listAnswers).countFines * -countTotal(listAnswers).bonus;
+    if (countTotal(listAnswers.results).countFines > 0) {
+      fineSlow = countTotal(listAnswers.results).countFines * -countTotal(listAnswers.results).bonus;
       const rowFines = createRow(`<td></td>
         <td class="result__extra">Штраф за медлительность:</td>
-        <td class="result__extra">${countTotal(listAnswers).countFines} <span class="stats__result stats__result--slow"></span></td>
-        <td class="result__points">× ${countTotal(listAnswers).bonus}</td>
+        <td class="result__extra">${countTotal(listAnswers.results).countFines} <span class="stats__result stats__result--slow"></span></td>
+        <td class="result__points">× ${countTotal(listAnswers.results).bonus}</td>
         <td class="result__total">${fineSlow}</td>`);
       table.appendChild(rowFines);
     }
     if (fineSlow !== 0 || bonusLives !== 0 || bonusFast !== 0) {
       const rowTotal = createRow(`<td colspan="5" class="result__total  result__total--final">
-        ${countTotal(listAnswers).score + fineSlow + bonusLives + bonusFast}
+        ${countTotal(listAnswers.results).score + fineSlow + bonusLives + bonusFast}
       </td>`);
       table.appendChild(rowTotal);
     }
