@@ -20,8 +20,8 @@ const backToStart = (domElement) => {
   });
 };
 const exit = () => {
-  StatsLoader.saveStats(resultData.answers)
-    .then(() => StatsLoader.loadStats())
+  StatsLoader.saveStats(resultData.answers, window.userName)
+    .then(() => StatsLoader.loadStats(window.userName))
     .then((data) => {
       data = Array.from(data);
       Application.showStats(data);

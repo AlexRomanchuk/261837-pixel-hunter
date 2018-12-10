@@ -11,23 +11,23 @@ const checkStatus = (response) => {
 const toJSON = (res) => res.json();
 
 export default class StatsLoader {
-  static loadStats() {
-    return window.fetch(`https://es.dump.academy/pixel-hunter/stats/${APP_ID}-${DEFAULT_NAME}`)
+  static loadStats(name = DEFAULT_NAME) {
+    return window.fetch(`https://es.dump.academy/pixel-hunter/stats/${APP_ID}-${name}`)
       .then(checkStatus)
       .then(toJSON);
   }
-  static saveStats(data) {
+  static saveStats(data, name = DEFAULT_NAME) {
     const requestSettings = {
       body: JSON.stringify({
         results: data,
-        gamerName: window.userName
+        gamerName: name
       }),
       headers: {
         'Content-Type': `application/json`
       },
       method: `POST`
     };
-    return window.fetch(`https://es.dump.academy/pixel-hunter/stats/${APP_ID}-${DEFAULT_NAME}`, requestSettings)
+    return window.fetch(`https://es.dump.academy/pixel-hunter/stats/${APP_ID}-${name}`, requestSettings)
       .then(checkStatus);
   }
 }
