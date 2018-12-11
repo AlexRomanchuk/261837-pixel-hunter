@@ -18,8 +18,7 @@ export const initialLevel = {
   lives: Game.LIVES
 };
 export const resultData = {
-  answers: [],
-  gameResults: []
+  answers: []
 };
 export const gameTimers = {
   answerTime: 0,
