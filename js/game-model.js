@@ -40,10 +40,12 @@ export default class GameModel {
     this.initial = Object.assign({}, initialLevel);
     this.timers = Object.assign({}, gameTimers);
     resultData.answers = [];
-    resultData.gameResults = [];
   }
   isDead() {
     return this.initial.lives < 0;
+  }
+  isEndOfGame() {
+    return this.initial.question >= this.data.length;
   }
   isTimeout() {
     return this.timers.gameTime < 0;

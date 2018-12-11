@@ -1,10 +1,10 @@
 // контроллер приложения
 import {resultData} from './data';
 import {showScreen, addStats, debug} from './util';
-import stats from './stats-template';
+import StatsTemplate from './stats-template';
 import GameScreen from './game-screen';
 import Application from './application';
-import Results from './results';
+import StatsLoader from './stats-loader';
 const ONE_SECOND = 1000;
 const timeouts = [];
 const clearTimeouts = (arrTimeouts) => {
@@ -20,22 +20,25 @@ const backToStart = (domElement) => {
   });
 };
 const exit = () => {
-  resultData.gameResults.push(resultData.answers);
-  const pageResults = new Results(resultData.gameResults);
-  pageResults.onExit = backToStart(pageResults.domElement);
-  Application.showStats(resultData.gameResults);
+  StatsLoader.saveStats(resultData.answers, window.userName)
+    .then(() => StatsLoader.loadStats(window.userName))
+    .then((data) => {
+      data = Array.from(data);
+      Application.showStats(data);
+    })
+    .catch((err) => Application.showError(err.message));
 };
 const bindGameOne = (context) => {
   const radioButtonsOne = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = context.domElement.querySelectorAll(`.visually-hidden[name="question2"]`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   radioButtonsOne.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
     });
   });
   radioButtonsTwo.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
     });
   });
@@ -43,9 +46,9 @@ const bindGameOne = (context) => {
 };
 const bindGameTwo = (context) => {
   const answersButtons = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   answersButtons.forEach((btn) => {
-    btn.addEventListener(`input`, () => {
+    btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(answersButtons);
     });
   });
@@ -53,7 +56,7 @@ const bindGameTwo = (context) => {
 };
 const bindGameThree = (context) => {
   const imagesAnswers = context.domElement.querySelectorAll(`.game__option img`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   imagesAnswers.forEach((img) => {
     img.addEventListener(`click`, () => {
       context.onAnswer = context.callback(img);
@@ -80,6 +83,11 @@ export default class GameController {
   }
   _stopTimer() {
     clearTimeout(this._timer);
+  }
+  _exit() {
+    this._stopTimer();
+    exit();
+    this.model.restart();
   }
   start() {
     const onAnswerOne = (buttonsImageLeft, buttonsImageRight) => {
@@ -128,7 +136,7 @@ export default class GameController {
       this._stopTimer();
       this.start();
     };
-    if (this.model.initial.question < window.gameData.length) {
+    if (!this.model.isEndOfGame()) {
       let selector;
       let template;
       let binding;
@@ -217,14 +225,10 @@ export default class GameController {
       showScreen(new GameScreen(selector, template, window.gameData[this.model.initial.question], this.model.initial, onAnswer, binding).domElement);
       this._startTimer();
       if (this.model.isDead()) {
-        this._stopTimer();
-        exit();
-        this.model.restart();
+        this._exit();
       }
     } else {
-      this._stopTimer();
-      exit();
-      this.model.restart();
+      this._exit();
     }
   }
 }

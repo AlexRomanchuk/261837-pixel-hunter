@@ -15,7 +15,7 @@ whenDataAreLoaded
     if (response.ok) {
       return response.json();
     }
-    throw new Error(`Ошибка при загрузке. Статус: ${response.status} ${response.statusText}`);
+    throw new Error(`Ошибка при загрузке данных. Статус: ${response.status} ${response.statusText}`);
   })
   .then((data) => {
     window.gameData = Array.from(data);
@@ -41,7 +41,7 @@ export default class Application {
   }
   static showGame(data) {
     const model = new GameModel(data);
-    const controller = new GameController(model, data);
+    const controller = new GameController(model);
     controller.start();
   }
   static showStats(answers) {
