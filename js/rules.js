@@ -65,7 +65,7 @@ export default class Rules extends AbstractScreen {
       Application.showGame(window.gameData);
     });
     buttonExit.addEventListener(`click`, () => {
-      Application.showGreeting(window.gameData);
+      Application.showGreeting();
     });
   }
 }

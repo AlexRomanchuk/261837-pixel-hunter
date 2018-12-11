@@ -84,6 +84,11 @@ export default class GameController {
   _stopTimer() {
     clearTimeout(this._timer);
   }
+  _exit() {
+    this._stopTimer();
+    exit();
+    this.model.restart();
+  }
   start() {
     const onAnswerOne = (buttonsImageLeft, buttonsImageRight) => {
       const answers = [window.gameData[this.model.initial.question].answers[0].type, window.gameData[this.model.initial.question].answers[1].type];
@@ -220,14 +225,10 @@ export default class GameController {
       showScreen(new GameScreen(selector, template, window.gameData[this.model.initial.question], this.model.initial, onAnswer, binding).domElement);
       this._startTimer();
       if (this.model.isDead()) {
-        this._stopTimer();
-        exit();
-        this.model.restart();
+        this._exit();
       }
     } else {
-      this._stopTimer();
-      exit();
-      this.model.restart();
+      this._exit();
     }
   }
 }
