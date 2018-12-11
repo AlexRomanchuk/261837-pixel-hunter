@@ -41,7 +41,7 @@ export default class Application {
   }
   static showGame(data) {
     const model = new GameModel(data);
-    const controller = new GameController(model, data);
+    const controller = new GameController(model);
     controller.start();
   }
   static showStats(answers) {

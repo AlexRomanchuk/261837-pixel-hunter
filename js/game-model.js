@@ -45,6 +45,9 @@ export default class GameModel {
   isDead() {
     return this.initial.lives < 0;
   }
+  isEndOfGame() {
+    return this.initial.question >= this.data.length;
+  }
   isTimeout() {
     return this.timers.gameTime < 0;
   }

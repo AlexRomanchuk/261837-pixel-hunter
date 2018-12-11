@@ -1,7 +1,7 @@
 // контроллер приложения
 import {resultData} from './data';
 import {showScreen, addStats, debug} from './util';
-import stats from './stats-template';
+import StatsTemplate from './stats-template';
 import GameScreen from './game-screen';
 import Application from './application';
 import StatsLoader from './stats-loader';
@@ -31,7 +31,7 @@ const exit = () => {
 const bindGameOne = (context) => {
   const radioButtonsOne = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
   const radioButtonsTwo = context.domElement.querySelectorAll(`.visually-hidden[name="question2"]`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   radioButtonsOne.forEach((btn) => {
     btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(radioButtonsOne, radioButtonsTwo);
@@ -46,7 +46,7 @@ const bindGameOne = (context) => {
 };
 const bindGameTwo = (context) => {
   const answersButtons = context.domElement.querySelectorAll(`.visually-hidden[name="question1"]`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   answersButtons.forEach((btn) => {
     btn.addEventListener(`click`, () => {
       context.onAnswer = context.callback(answersButtons);
@@ -56,7 +56,7 @@ const bindGameTwo = (context) => {
 };
 const bindGameThree = (context) => {
   const imagesAnswers = context.domElement.querySelectorAll(`.game__option img`);
-  addStats(context.domElement, stats(resultData.answers));
+  addStats(context.domElement, new StatsTemplate(resultData.answers).render());
   imagesAnswers.forEach((img) => {
     img.addEventListener(`click`, () => {
       context.onAnswer = context.callback(img);
@@ -131,7 +131,7 @@ export default class GameController {
       this._stopTimer();
       this.start();
     };
-    if (this.model.initial.question < window.gameData.length) {
+    if (!this.model.isEndOfGame()) {
       let selector;
       let template;
       let binding;

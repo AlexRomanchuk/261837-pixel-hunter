@@ -1,6 +1,6 @@
 // результаты игр
 import AbstractScreen from './abstract-screen';
-import stats from './stats-template';
+import StatsTemplate from './stats-template';
 import {countTotal} from './util';
 import Application from './application';
 
@@ -29,7 +29,7 @@ const createTableOfResults = (answers) => {
     const tdStats = rowStats.querySelector(`.result__stats`);
     const gamerCell = rowStats.querySelector(`.username`);
     gamerCell.textContent = listAnswers.gamerName;
-    tdStats.appendChild(stats(listAnswers.results));
+    tdStats.appendChild(new StatsTemplate(listAnswers.results).render());
     table.appendChild(rowStats);
     let bonusFast = 0;
     if (countTotal(listAnswers.results).countBonuses > 0) {
