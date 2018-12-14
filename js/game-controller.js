@@ -203,7 +203,7 @@ export default class GameController {
     if (!this.model.isEndOfGame()) {
       const level = this._createLevel();
       this.model.restartTime();
-      const gameScreen = new GameScreen(level.selector, level.template, window.gameData[this.model.initial.question], this.model.initial, level.onAnswer, level.binding);
+      const gameScreen = new GameScreen(level.selector, level.template, window.gameData[this.model.initial.question].question, this.model, level.onAnswer, level.binding);
       showScreen(gameScreen.domElement);
       this._startTimer(gameScreen.onTick);
       if (this.model.isDead()) {
