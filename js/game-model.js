@@ -1,15 +1,10 @@
 // модель приложения
 import {initialLevel, resultData, gameTimers} from './data';
-
-const tick = (timers) => {
-  const clock = document.querySelector(`.game__timer`);
+const tick = (timers, callback) => {
   timers.gameTime = timers.gameTime - 1;
   timers.answerTime = timers.answerTime + 1;
-  if (clock) {
-    clock.textContent = timers.gameTime;
-    if (timers.gameTime <= 5) {
-      clock.style = `color: red;`;
-    }
+  if (callback) {
+    callback(timers.gameTime);
   }
 };
 const die = (initial) => {
@@ -21,14 +16,8 @@ export default class GameModel {
     this.data = data;
     this.restart();
   }
-  get getInitial() {
-    return this.initial;
-  }
-  get getTimers() {
-    return this.timers;
-  }
-  tick() {
-    return tick(this.timers);
+  tick(callback) {
+    return tick(this.timers, callback);
   }
   die() {
     this.initial = die(this.initial);

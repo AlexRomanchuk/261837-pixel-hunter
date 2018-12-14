@@ -45,4 +45,13 @@ export default class GameScreen extends AbstractScreen {
   bind() {
     this.binding(this);
   }
+  onTick(time) {
+    const clock = document.querySelector(`.game__timer`);
+    if (clock) {
+      clock.textContent = time;
+      if (time <= Game.WARNING_TIME) {
+        clock.classList.add(`game__timer--warning`);
+      }
+    }
+  }
 }

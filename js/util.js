@@ -8,6 +8,7 @@ export const Game = {
   BONUS_STEP: 50,
   FAST_ANSWER_TIME: 10,
   SLOW_ANSWER_TIME: 20,
+  WARNING_TIME: 5,
   MIN_ANSWERS: 7
 };
 
@@ -17,7 +18,7 @@ export const addStats = (screen, DOM) => {
   const section = screen.querySelector(`.game`);
   section.appendChild(DOM);
 };
-
+// функция пример для тестирования
 export const gameTimer = (time, callback) => {
   let lastTime = time;
   gameTimer.timerInterval = setInterval(() => {
@@ -42,15 +43,12 @@ gameTimer.start = (time, callback) => {
 // функция пример для тестирования
 export const countScore = (answers, lives) => {
   let score = 0;
-  let gameLives = lives;
-  if (lives < 0) {
-    gameLives = 0;
-  }
+  const gameLives = lives < 0 ? 0 : lives;
   const liveScore = gameLives * Game.BONUS_STEP;
   if (answers.length < Game.MIN_ANSWERS) {
     score = -1;
   } else {
-    answers.forEach((answer) => {
+    for (let answer of answers) {
       if (answer.right && answer.time < Game.FAST_ANSWER_TIME) {
         score = score + Game.IDEAL_STEP + Game.BONUS_STEP;
       } else if (answer.right && answer.time > Game.SLOW_ANSWER_TIME) {
@@ -58,7 +56,7 @@ export const countScore = (answers, lives) => {
       } else if (answer.right) {
         score += Game.IDEAL_STEP;
       }
-    });
+    }
     score += liveScore;
   }
   return score;
@@ -69,7 +67,7 @@ export const countTotal = (answers) => {
   let countBonuses = 0;
   let countFines = 0;
   let gameLives = Game.LIVES;
-  answers.forEach((answer) => {
+  for (let answer of answers) {
     if (answer && answer.right) {
       score += Game.IDEAL_STEP;
       if (answer.time < Game.FAST_ANSWER_TIME) {
@@ -81,9 +79,9 @@ export const countTotal = (answers) => {
     } else if (!answer || !answer.right) {
       gameLives -= 1;
     }
-  });
+  }
   if (gameLives < 0) {
-    score = `fail`;
+    score = 0;
     countBonuses = 0;
     countFines = 0;
   }
@@ -96,16 +94,6 @@ export const countTotal = (answers) => {
     'lives': gameLives < 0 ? 0 : gameLives
   };
 };
-// функция пример для тестирования
-export const changeLevels = (level, answers, callbackGame, callbackScore) => {
-  const curLevel = level;
-  const result = {
-    lives: callbackGame(answers),
-    level: curLevel + 1,
-    score: callbackScore(answers, callbackGame(answers))
-  };
-  return result;
-};
 
 export const showScreen = (elem) => {
   if (elem) {
@@ -113,6 +101,43 @@ export const showScreen = (elem) => {
     mainElement.innerHTML = ``;
     mainElement.appendChild(elem);
   }
+};
+
+export const showConfirm = (callback) => {
+  const body = document.querySelector(`body`);
+  const modalTemplate = `<section class="modal" style="position: absolute;">
+    <form class="modal__inner">
+      <button class="modal__close" type="button">
+        <span class="visually-hidden">Закрыть</span>
+      </button>
+      <h2 class="modal__title">Подтверждение</h2>
+      <p class="modal__text">Вы уверены что хотите начать игру заново?</p>
+      <div class="modal__button-wrapper">
+        <button class="modal__btn modal__btn--ok">Ок</button>
+        <button class="modal__btn modal__btn--cancel">Отмена</button>
+      </div>
+    </form>
+  </section>`;
+  const domElement = getElementFromTemplate(modalTemplate);
+  const closeModal = (evt) => {
+    evt.preventDefault();
+    body.removeChild(domElement);
+  };
+  const addClickHandler = (domElem) => {
+    domElem.addEventListener(`click`, (evt) => {
+      closeModal(evt);
+    });
+  };
+  const ok = domElement.querySelector(`.modal__btn--ok`);
+  const buttonClose = domElement.querySelector(`.modal__close`);
+  const cancel = domElement.querySelector(`.modal__btn--cancel`);
+  ok.addEventListener(`click`, (evt) => {
+    closeModal(evt);
+    callback();
+  });
+  addClickHandler(cancel);
+  addClickHandler(buttonClose);
+  body.appendChild(domElement);
 };
 
 export const getElementFromTemplate = (template) => {

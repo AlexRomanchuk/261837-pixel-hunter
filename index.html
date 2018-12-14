@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <title>Пиксель хантер</title>
   <link href="css/style.css" rel="stylesheet">
+  <!-- кастомные стили для кроссфейда и мигания таймера -->
+  <style type="text/css">
+    .game__timer--warning {
+      -webkit-animation: blink2 0.5s linear infinite;
+      animation: blink2 0.5s linear infinite;
+    }
+    @-webkit-keyframes blink2 {
+      100% {
+        color: rgba(34, 34, 34, 0);
+      }
+    }
+    @keyframes blink2 {
+      100% {
+        color: rgba(34, 34, 34, 0);
+      }
+    }
+  </style>
 </head>
 <body>
 
