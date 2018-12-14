@@ -7,7 +7,7 @@ import GameModel from './game-model';
 import GameController from './game-controller';
 import Results from './results';
 import ErrorScreen from './error-screen';
-window.gameData = [];
+window.gameData = false;
 export default class Application {
   static loadData() {
     const whenDataAreLoaded = window.fetch(`https://es.dump.academy/pixel-hunter/questions`);
@@ -20,7 +20,6 @@ export default class Application {
       })
       .then((data) => {
         window.gameData = Array.from(data);
-        Application.showGreeting(window.gameData);
       })
       .catch((err) => Application.showError(err.message));
   }
@@ -30,6 +29,7 @@ export default class Application {
   static showIntro() {
     const intro = new Intro();
     showScreen(intro.domElement);
+    Application.loadData();
   }
   static showGreeting() {
     const greeting = new Greeting();

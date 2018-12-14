@@ -14,7 +14,9 @@ export default class Intro extends AbstractScreen {
   bind() {
     const asterisk = this.domElement.querySelector(`.asterisk`);
     asterisk.addEventListener(`click`, () => {
-      Application.loadData();
+      if (window.gameData) {
+        Application.showGreeting();
+      }
     });
   }
 }
