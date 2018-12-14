@@ -25,7 +25,7 @@ const createTableOfResults = (answers) => {
         <td class="result__stats" colspan="2">
         </td>
         <td class="result__points">× ${countTotal(listAnswers.results).step}</td>
-        <td class="result__total">${countTotal(listAnswers.results).score}</td>`);
+        <td class="result__total">${countTotal(listAnswers.results).score === 0 ? `fail` : countTotal(listAnswers.results).score}</td>`);
     const tdStats = rowStats.querySelector(`.result__stats`);
     const gamerCell = rowStats.querySelector(`.username`);
     gamerCell.textContent = listAnswers.gamerName;
@@ -69,6 +69,10 @@ const createTableOfResults = (answers) => {
     }
     domResults.appendChild(table);
     i++;
+  }
+  const lastResult = answers.pop();
+  if (countTotal(lastResult.results).score === 0) {
+    resultsHeader.textContent = `Вы проиграли... :(`;
   }
   return domResults;
 };

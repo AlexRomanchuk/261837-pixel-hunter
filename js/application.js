@@ -7,29 +7,29 @@ import GameModel from './game-model';
 import GameController from './game-controller';
 import Results from './results';
 import ErrorScreen from './error-screen';
-window.gameData = [];
-
-const whenDataAreLoaded = window.fetch(`https://es.dump.academy/pixel-hunter/questions`);
-whenDataAreLoaded
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(`Ошибка при загрузке данных. Статус: ${response.status} ${response.statusText}`);
-  })
-  .then((data) => {
-    window.gameData = Array.from(data);
-    Application.showGreeting(window.gameData);
-  })
-  .catch((err) => Application.showError(err.message));
-
+window.gameData = false;
 export default class Application {
+  static loadData() {
+    const whenDataAreLoaded = window.fetch(`https://es.dump.academy/pixel-hunter/questions`);
+    whenDataAreLoaded
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(`Ошибка при загрузке данных. Статус: ${response.status} ${response.statusText}`);
+      })
+      .then((data) => {
+        window.gameData = Array.from(data);
+      })
+      .catch((err) => Application.showError(err.message));
+  }
   static showError(message) {
     showScreen(new ErrorScreen(message).domElement);
   }
   static showIntro() {
     const intro = new Intro();
     showScreen(intro.domElement);
+    Application.loadData();
   }
   static showGreeting() {
     const greeting = new Greeting();

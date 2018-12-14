@@ -3,12 +3,12 @@ import AbstractScreen from './abstract-screen';
 import {Game} from './util';
 
 export default class GameScreen extends AbstractScreen {
-  constructor(selector, template, data, initial, callback, binding) {
+  constructor(selector, template, riddle, model, callback, binding) {
     super();
     this.gameTemplate = template;
-    this.riddle = data;
+    this.riddle = riddle;
     this.selector = selector;
-    this.initial = initial;
+    this.model = model;
     this.callback = callback;
     this.binding = binding;
   }
@@ -25,10 +25,10 @@ export default class GameScreen extends AbstractScreen {
       </button>
       <div class="game__timer">30</div>
       <div class="game__lives">
-      ${Array.from({length: Game.LIVES - this.initial.lives})
+      ${Array.from({length: Game.LIVES - this.model.initial.lives})
       .fill(`<img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">`)
       .join(``)}
-      ${Array.from({length: this.initial.lives})
+      ${Array.from({length: this.model.initial.lives})
       .fill(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">`)
       .join(``)}
       </div>
@@ -36,7 +36,7 @@ export default class GameScreen extends AbstractScreen {
   }
   get template() {
     return `${this.header}<section class="game">
-    <p class="game__task">${this.riddle.question}</p>
+    <p class="game__task">${this.riddle}</p>
       <form class="game__content ${this.selector}">
         ${this.gameTemplate}
       </form>
@@ -44,5 +44,14 @@ export default class GameScreen extends AbstractScreen {
   }
   bind() {
     this.binding(this);
+  }
+  onTick(time) {
+    const clock = document.querySelector(`.game__timer`);
+    if (clock) {
+      clock.textContent = time;
+      if (time <= Game.WARNING_TIME) {
+        clock.classList.add(`game__timer--warning`);
+      }
+    }
   }
 }

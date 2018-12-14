@@ -53,12 +53,9 @@ export default class Rules extends AbstractScreen {
       rulesList.insertBefore(riddleTitle, rule);
     }
     rulesField.addEventListener(`input`, () => {
-      if (rulesField.value.trim()) {
-        buttonContinue.disabled = ``;
-      } else {
-        buttonContinue.disabled = `disabled`;
-      }
+      buttonContinue.disabled = rulesField.value.trim() ? `` : `disabled`;
     });
+    i = 0;
     buttonContinue.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       window.userName = rulesField.value.trim();
