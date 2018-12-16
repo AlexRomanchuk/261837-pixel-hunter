@@ -1,9 +1,10 @@
 // игра
 import AbstractScreen from './abstract-screen';
 import {Game} from './util';
+import {resize} from './resize';
 
 export default class GameScreen extends AbstractScreen {
-  constructor(selector, template, riddle, model, callback, binding) {
+  constructor(selector, template, riddle, model, callback, binding, width, height) {
     super();
     this.gameTemplate = template;
     this.riddle = riddle;
@@ -11,6 +12,8 @@ export default class GameScreen extends AbstractScreen {
     this.model = model;
     this.callback = callback;
     this.binding = binding;
+    this.width = width;
+    this.height = height;
   }
   get header() {
     return `<header class="header">
@@ -44,6 +47,19 @@ export default class GameScreen extends AbstractScreen {
   }
   bind() {
     this.binding(this);
+    const imageFrames = this.domElement.querySelectorAll(`.game__option`);
+    imageFrames.forEach((imageFrame) => {
+      const photo = imageFrame.querySelector(`img`);
+      const imageSize = resize({
+        width: +photo.naturalWidth,
+        height: +photo.naturalHeight
+      }, {
+        width: this.width,
+        height: this.height
+      });
+      photo.width = imageSize.width;
+      photo.height = imageSize.height;
+    });
   }
   onTick(time) {
     const clock = document.querySelector(`.game__timer`);

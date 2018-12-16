@@ -12,6 +12,14 @@ export const Game = {
   MIN_ANSWERS: 7
 };
 
+export const GameTypes = {
+  ONE_IMAGE: `tinder-like`,
+  TWO_IMAGES: `two-of-two`,
+  THREE_IMAGES: `one-of-three`
+};
+
+const FADE_TIME = 700;
+
 export const debug = true;
 
 export const addStats = (screen, DOM) => {
@@ -101,6 +109,16 @@ export const showScreen = (elem) => {
     mainElement.innerHTML = ``;
     mainElement.appendChild(elem);
   }
+};
+
+export const showWithCrossFade = (previousElement, nextElement, selector) => {
+  const mainElement = document.querySelector(`#main`);
+  previousElement.classList.add(selector);
+  previousElement.style = `position: absolute`;
+  setTimeout(() => {
+    mainElement.removeChild(previousElement);
+  }, FADE_TIME);
+  mainElement.appendChild(nextElement);
 };
 
 export const showConfirm = (callback) => {

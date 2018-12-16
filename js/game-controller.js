@@ -1,15 +1,17 @@
 // контроллер приложения
 import {resultData} from './data';
-import {showScreen, addStats, showConfirm, debug} from './util';
+import {GameTypes, showScreen, addStats, showConfirm, debug} from './util';
 import StatsTemplate from './stats-template';
 import GameScreen from './game-screen';
 import Application from './application';
 import StatsLoader from './stats-loader';
 const ONE_SECOND = 1000;
-const GameTypes = {
-  ONE_IMAGE: `tinder-like`,
-  TWO_IMAGES: `two-of-two`,
-  THREE_IMAGES: `one-of-three`
+const Sizes = {
+  WIDTH_IMAGE_ONE: 468,
+  WIDTH_IMAGE_TWO: 705,
+  WIDTH_IMAGE_THREE: 304,
+  HEIGHT_IMAGE_TWO: 455,
+  HEIGHT_IMAGE_ONE: 458
 };
 const QUESTION_TRIPPLE = `Найдите рисунок среди изображений`;
 const timeouts = [];
@@ -63,10 +65,11 @@ const bindGameTwo = (context) => {
   addBackHandler(context.domElement);
 };
 const bindGameThree = (context) => {
-  const imagesAnswers = context.domElement.querySelectorAll(`.game__option img`);
+  const imagesAnswers = context.domElement.querySelectorAll(`.game__option`);
   addStats(context.domElement, new StatsTemplate(resultData.answers).render());
-  imagesAnswers.forEach((img) => {
-    img.addEventListener(`click`, () => {
+  imagesAnswers.forEach((imgFrame) => {
+    const img = imgFrame.querySelector(`img`);
+    imgFrame.addEventListener(`click`, () => {
       context.onAnswer = context.callback(img);
     });
   });
@@ -136,12 +139,16 @@ export default class GameController {
       const result = img.alt === answer;
       this._changeLevel(result);
     };
+    let width;
+    let height;
     let selector;
     let template;
     let binding;
     let onAnswer;
     switch (window.gameData[this.model.initial.question].type) {
       case GameTypes.TWO_IMAGES:
+        width = Sizes.WIDTH_IMAGE_ONE;
+        height = Sizes.HEIGHT_IMAGE_ONE;
         selector = ``;
         template = window.gameData[this.model.initial.question].answers.map((question, i) => `<div class="game__option">
             <img src="${question.image.url}"
@@ -161,6 +168,8 @@ export default class GameController {
         onAnswer = onAnswerOne;
         break;
       case GameTypes.ONE_IMAGE:
+        width = Sizes.WIDTH_IMAGE_TWO;
+        height = Sizes.HEIGHT_IMAGE_TWO;
         selector = `game__content--wide`;
         template = `<div class="game__option">
             <img src="${window.gameData[this.model.initial.question].answers[0].image.url}"
@@ -180,6 +189,8 @@ export default class GameController {
         onAnswer = onAnswerTwo;
         break;
       case GameTypes.THREE_IMAGES:
+        width = Sizes.WIDTH_IMAGE_THREE;
+        height = Sizes.HEIGHT_IMAGE_TWO;
         selector = `game__content--triple`;
         template = window.gameData[this.model.initial.question].answers.map((question) => `<div class="game__option">
             <img src="${question.image.url}"
@@ -193,6 +204,8 @@ export default class GameController {
         break;
     }
     return {
+      'width': width,
+      'height': height,
       'selector': selector,
       'template': template,
       'binding': binding,
@@ -203,7 +216,7 @@ export default class GameController {
     if (!this.model.isEndOfGame()) {
       const level = this._createLevel();
       this.model.restartTime();
-      const gameScreen = new GameScreen(level.selector, level.template, window.gameData[this.model.initial.question].question, this.model, level.onAnswer, level.binding);
+      const gameScreen = new GameScreen(level.selector, level.template, window.gameData[this.model.initial.question].question, this.model, level.onAnswer, level.binding, level.width, level.height);
       showScreen(gameScreen.domElement);
       this._startTimer(gameScreen.onTick);
       if (this.model.isDead()) {

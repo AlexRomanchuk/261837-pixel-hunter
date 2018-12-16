@@ -2,14 +2,24 @@
 import Intro from './intro';
 import Rules from './rules';
 import Greeting from './greeting';
-import {showScreen} from './util';
+import {showScreen, showWithCrossFade} from './util';
 import GameModel from './game-model';
 import GameController from './game-controller';
 import Results from './results';
 import ErrorScreen from './error-screen';
 window.gameData = false;
+let loadedImages = 0;
+let hiddenImages = null;
+const countLoadedImages = (listImages, screen) => {
+  loadedImages++;
+  if (listImages && listImages.length === loadedImages) {
+    Application.showGreeting(screen);
+    return true;
+  }
+  return false;
+};
 export default class Application {
-  static loadData() {
+  static loadData(screen) {
     const whenDataAreLoaded = window.fetch(`https://es.dump.academy/pixel-hunter/questions`);
     whenDataAreLoaded
       .then((response) => {
@@ -20,6 +30,25 @@ export default class Application {
       })
       .then((data) => {
         window.gameData = Array.from(data);
+        const body = document.querySelector(`body`);
+        // создание скрытых загружаемых изображений
+        for (let level of window.gameData) {
+          for (let answer of level.answers) {
+            const hiddenImage = document.createElement(`img`);
+            hiddenImage.src = answer.image.url;
+            hiddenImage.classList.add(`preload__hidden`);
+            hiddenImage.style = `display: none`;
+            hiddenImage.onload = () => {
+              countLoadedImages(hiddenImages, screen);
+            };
+            hiddenImage.onerror = () => {
+              Application.showError(`Не удалось загрузить изображение.`);
+            };
+            body.appendChild(hiddenImage, screen);
+          }
+        }
+        hiddenImages = document.querySelectorAll(`.preload__hidden`);
+        countLoadedImages(hiddenImages);
       })
       .catch((err) => Application.showError(err.message));
   }
@@ -29,11 +58,11 @@ export default class Application {
   static showIntro() {
     const intro = new Intro();
     showScreen(intro.domElement);
-    Application.loadData();
+    Application.loadData(intro.domElement);
   }
-  static showGreeting() {
+  static showGreeting(screen) {
     const greeting = new Greeting();
-    showScreen(greeting.domElement);
+    showWithCrossFade(screen, greeting.domElement, `intro--fade`);
   }
   static showRules() {
     const rules = new Rules();

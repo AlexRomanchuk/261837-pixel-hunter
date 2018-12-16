@@ -20,6 +20,40 @@
         color: rgba(34, 34, 34, 0);
       }
     }
+    .intro--fade {
+      -webkit-animation: fade 0.75s linear;
+      animation: fade 0.75s linear;
+    }
+    .greeting--unfade {
+      -webkit-animation: unfade 0.75s linear;
+      animation: unfade 0.75s linear;
+    }
+    @-webkit-keyframes fade {
+      100% {
+        opacity: 0;
+      }
+    }
+    @keyframes fade {
+      100% {
+        opacity: 0;
+      }
+    }
+    @-webkit-keyframes unfade {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes unfade {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
