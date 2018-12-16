@@ -31,7 +31,7 @@ export default class Application {
       .then((data) => {
         window.gameData = Array.from(data);
         const body = document.querySelector(`body`);
-        // создание скрытых загружаемых изображений
+        // создание скрытых изображений на загрузку
         for (let level of window.gameData) {
           for (let answer of level.answers) {
             const hiddenImage = document.createElement(`img`);
