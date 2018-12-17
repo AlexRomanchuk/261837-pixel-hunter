@@ -50,7 +50,7 @@ export default class GameScreen extends AbstractScreen {
     const imageFrames = this.domElement.querySelectorAll(`.game__option`);
     imageFrames.forEach((imageFrame) => {
       const photo = imageFrame.querySelector(`img`);
-      if (+photo.naturalWidth !== 0  && +photo.naturalHeight !== 0) {
+      if (+photo.naturalWidth !== 0 && +photo.naturalHeight !== 0) {
         const imageSize = resize({
           width: +photo.naturalWidth,
           height: +photo.naturalHeight
