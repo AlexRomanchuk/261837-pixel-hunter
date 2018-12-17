@@ -50,15 +50,17 @@ export default class GameScreen extends AbstractScreen {
     const imageFrames = this.domElement.querySelectorAll(`.game__option`);
     imageFrames.forEach((imageFrame) => {
       const photo = imageFrame.querySelector(`img`);
-      const imageSize = resize({
-        width: +photo.naturalWidth,
-        height: +photo.naturalHeight
-      }, {
-        width: this.width,
-        height: this.height
-      });
-      photo.width = imageSize.width;
-      photo.height = imageSize.height;
+      if (+photo.naturalWidth !== 0  && +photo.naturalHeight !== 0) {
+        const imageSize = resize({
+          width: +photo.naturalWidth,
+          height: +photo.naturalHeight
+        }, {
+          width: this.width,
+          height: this.height
+        });
+        photo.width = imageSize.width;
+        photo.height = imageSize.height;
+      }
     });
   }
   onTick(time) {

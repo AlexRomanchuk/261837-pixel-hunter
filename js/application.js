@@ -41,9 +41,6 @@ export default class Application {
             hiddenImage.onload = () => {
               countLoadedImages(hiddenImages, screen);
             };
-            hiddenImage.onerror = () => {
-              Application.showError(`Не удалось загрузить изображение.`);
-            };
             body.appendChild(hiddenImage, screen);
           }
         }
@@ -60,6 +57,8 @@ export default class Application {
     showScreen(intro.domElement);
     Application.loadData(intro.domElement);
   }
+  // в зависимости от переданного DOM текущего экрана показывать с кроссфейдом или сразу.
+  // во избежание возможных глюков с игровых экранов переход реализован без кроссфейда.
   static showGreeting(screen = null) {
     const greeting = new Greeting();
     if (screen) {
