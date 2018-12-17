@@ -28,7 +28,6 @@ export default class Greeting extends AbstractScreen {
     </section>`;
   }
   bind() {
-    this.domElement.classList.add(`greeting--unfade`);
     const buttonContinue = this.domElement.querySelector(`.greeting__continue`);
     buttonContinue.addEventListener(`click`, () => {
       Application.showRules(window.gameData);

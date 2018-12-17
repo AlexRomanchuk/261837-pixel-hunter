@@ -103,7 +103,7 @@ export default class Results extends AbstractScreen {
     section.appendChild(createTableOfResults(this.answers));
     const buttonExit = this.domElement.querySelector(`.back`);
     buttonExit.addEventListener(`click`, () => {
-      Application.showGreeting(this.domElement);
+      Application.showGreeting();
     });
   }
 }

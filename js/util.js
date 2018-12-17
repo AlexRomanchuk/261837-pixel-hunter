@@ -118,6 +118,7 @@ export const showWithCrossFade = (previousElement, nextElement, selector) => {
   setTimeout(() => {
     mainElement.removeChild(previousElement);
   }, FADE_TIME);
+  nextElement.classList.add(`greeting--unfade`);
   mainElement.appendChild(nextElement);
 };
 

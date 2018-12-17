@@ -25,7 +25,7 @@ const addBackHandler = (domElement) => {
   buttonExit.addEventListener(`click`, () => {
     showConfirm(() => {
       clearTimeouts(timeouts);
-      Application.showGreeting(domElement);
+      Application.showGreeting();
     });
   });
 };

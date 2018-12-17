@@ -60,9 +60,13 @@ export default class Application {
     showScreen(intro.domElement);
     Application.loadData(intro.domElement);
   }
-  static showGreeting(screen) {
+  static showGreeting(screen = null) {
     const greeting = new Greeting();
-    showWithCrossFade(screen, greeting.domElement, `intro--fade`);
+    if (screen) {
+      showWithCrossFade(screen, greeting.domElement, `intro--fade`);
+    } else {
+      showScreen(greeting.domElement);
+    }
   }
   static showRules() {
     const rules = new Rules();
