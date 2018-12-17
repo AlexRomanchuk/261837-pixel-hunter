@@ -63,7 +63,7 @@ export default class Application {
   static showGreeting(screen = null) {
     const greeting = new Greeting();
     if (screen) {
-      showWithCrossFade(screen, greeting.domElement, `intro--fade`);
+      showWithCrossFade(screen, greeting.domElement);
     } else {
       showScreen(greeting.domElement);
     }

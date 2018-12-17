@@ -111,9 +111,9 @@ export const showScreen = (elem) => {
   }
 };
 
-export const showWithCrossFade = (previousElement, nextElement, selector) => {
+export const showWithCrossFade = (previousElement, nextElement) => {
   const mainElement = document.querySelector(`#main`);
-  previousElement.classList.add(selector);
+  previousElement.classList.add(`intro--fade`);
   previousElement.style = `position: absolute`;
   setTimeout(() => {
     mainElement.removeChild(previousElement);
